@@ -129,4 +129,28 @@ public class ClienteDAO {
             throw new RuntimeException(e);
         }
     }
+
+    public void desligarCliente(Integer id){
+        PreparedStatement ps;
+        String sql = "UPDATE cliente SET esta_ativo = FALSE WHERE id = ?";
+
+        try {
+            conn.setAutoCommit(false);
+            ps = conn.prepareStatement(sql);
+
+            ps.setInt(1, id);
+            ps.executeUpdate();
+
+            conn.commit();
+            conn.close();
+            ps.close();
+        } catch (SQLException e){
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            throw new RuntimeException(e);
+        }
+    }
 }
