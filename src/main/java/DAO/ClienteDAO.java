@@ -76,4 +76,29 @@ public class ClienteDAO {
         }
         return clientes;
     }
+    public Set<Cliente> buscarPorNome(String nomeBusca){
+        PreparedStatement ps;
+        ResultSet rs;
+        Set<Cliente> clientes = new HashSet<>();
+
+        try {
+            String sql = "SELECT * FROM cliente WHERE nome = ? AND esta_ativo = TRUE";
+            conn.setAutoCommit(false);
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, nomeBusca);
+            rs = ps.executeQuery();
+
+            while (rs.next()){
+                String nome = rs.getString(2);
+                String email = rs.getString(3);
+                String telefone = rs.getString(4);
+                Boolean esta_ativo = rs.getBoolean(5);
+
+                clientes.add(new Cliente(nome, email, telefone, esta_ativo));
+            }
+        } catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+        return clientes;
+    }
 }
