@@ -101,4 +101,32 @@ public class ClienteDAO {
         }
         return clientes;
     }
+
+    public void atualizar(Cliente cliente, Integer id){
+        PreparedStatement ps;
+        String sql = "UPDATE cliente SET nome = ?, email = ?, telefone = ? WHERE id = ?";
+
+        try {
+            conn.setAutoCommit(false);
+            ps = conn.prepareStatement(sql);
+
+            ps.setString(1, cliente.nome());
+            ps.setString(2, cliente.email());
+            ps.setString(3, cliente.telefone());
+            ps.setInt(4, id);
+
+            ps.executeUpdate();
+
+            ps.close();
+            conn.commit();
+            conn.close();
+        } catch (SQLException e) {
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            throw new RuntimeException(e);
+        }
+    }
 }
