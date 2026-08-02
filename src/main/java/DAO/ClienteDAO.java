@@ -4,10 +4,13 @@ import model.Cliente;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ClienteDAO {
-    private Connection conn;
+    private final Connection conn;
 
     public ClienteDAO(Connection connection) {
         this.conn = connection;
@@ -38,5 +41,39 @@ public class ClienteDAO {
             }
             throw new RuntimeException(e);
         }
+    }
+
+    public Set<Cliente> listar (){
+        Set<Cliente> clientes = new HashSet<>();
+        ResultSet rs;
+        PreparedStatement ps;
+        String sql = "SELECT * FROM cliente";
+
+        try {
+            conn.setAutoCommit(false);
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while (rs.next()){
+                String nome = rs.getString(2);
+                String email = rs.getString(3);
+                String telefone = rs.getString(4);
+                Boolean esta_ativo = rs.getBoolean(5);
+                clientes.add(new Cliente(nome, email, telefone, esta_ativo));
+            }
+
+            ps.close();
+            rs.close();
+            conn.commit();
+            conn.close();
+        } catch (SQLException e){
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            throw new RuntimeException(e);
+        }
+        return clientes;
     }
 }
