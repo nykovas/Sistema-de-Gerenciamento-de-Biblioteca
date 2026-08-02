@@ -47,7 +47,7 @@ public class ClienteDAO {
         Set<Cliente> clientes = new HashSet<>();
         ResultSet rs;
         PreparedStatement ps;
-        String sql = "SELECT * FROM cliente";
+        String sql = "SELECT * FROM cliente ORDER BY id";
 
         try {
             conn.setAutoCommit(false);
@@ -55,11 +55,12 @@ public class ClienteDAO {
             rs = ps.executeQuery();
 
             while (rs.next()){
+                Integer id = rs.getInt(1);
                 String nome = rs.getString(2);
                 String email = rs.getString(3);
                 String telefone = rs.getString(4);
                 Boolean esta_ativo = rs.getBoolean(5);
-                clientes.add(new Cliente(nome, email, telefone, esta_ativo));
+                clientes.add(new Cliente(id, nome, email, telefone, esta_ativo));
             }
 
             ps.close();
@@ -89,12 +90,13 @@ public class ClienteDAO {
             rs = ps.executeQuery();
 
             while (rs.next()){
+                Integer id = rs.getInt(1);
                 String nome = rs.getString(2);
                 String email = rs.getString(3);
                 String telefone = rs.getString(4);
                 Boolean esta_ativo = rs.getBoolean(5);
 
-                clientes.add(new Cliente(nome, email, telefone, esta_ativo));
+                clientes.add(new Cliente(id, nome, email, telefone, esta_ativo));
             }
         } catch (SQLException e){
             throw new RuntimeException(e);
