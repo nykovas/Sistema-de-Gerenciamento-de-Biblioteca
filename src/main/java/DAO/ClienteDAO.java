@@ -17,9 +17,9 @@ public class ClienteDAO {
     }
 
     public void inserir(Cliente cliente){
-        PreparedStatement ps;
         String sql = "INSERT INTO cliente (nome, email, telefone, esta_ativo)" +
                 "VALUES (?, ?, ?, ?)";
+        PreparedStatement ps;
         try {
             conn.setAutoCommit(false);
             ps = conn.prepareStatement(sql);
@@ -44,10 +44,10 @@ public class ClienteDAO {
     }
 
     public List<Cliente> listar (){
+        String sql = "SELECT * FROM cliente WHERE esta_ativo = TRUE ORDER BY id ASC";
         List<Cliente> clientes = new ArrayList<>();
         ResultSet rs;
         PreparedStatement ps;
-        String sql = "SELECT * FROM cliente WHERE esta_ativo = TRUE ORDER BY id ASC";
 
         try {
             conn.setAutoCommit(false);
@@ -78,12 +78,12 @@ public class ClienteDAO {
         return clientes;
     }
     public List<Cliente> buscarPorId(Integer idBusca){
+        String sql = "SELECT * FROM cliente WHERE id = ? AND esta_ativo = TRUE";
         PreparedStatement ps;
         ResultSet rs;
         List<Cliente> clientes = new ArrayList<>();
 
         try {
-            String sql = "SELECT * FROM cliente WHERE id = ? AND esta_ativo = TRUE";
             conn.setAutoCommit(false);
             ps = conn.prepareStatement(sql);
             ps.setInt(1, idBusca);
@@ -105,8 +105,8 @@ public class ClienteDAO {
     }
 
     public void atualizar(Cliente cliente){
-        PreparedStatement ps;
         String sql = "UPDATE cliente SET nome = ?, email = ?, telefone = ? WHERE id = ? AND esta_ativo = TRUE";
+        PreparedStatement ps;
 
         try {
             conn.setAutoCommit(false);
@@ -133,8 +133,8 @@ public class ClienteDAO {
     }
 
     public void desligarCliente(Integer id){
-        PreparedStatement ps;
         String sql = "UPDATE cliente SET esta_ativo = FALSE WHERE id = ?";
+        PreparedStatement ps;
 
         try {
             conn.setAutoCommit(false);

@@ -17,8 +17,8 @@ public class LivroDAO {
     }
 
     public void inserir(Livro livro){
-        PreparedStatement ps;
         String sql = "INSERT INTO livro (titulo, autor, genero, ano_publicacao, estoque) VALUES (?, ?, ?, ?, ?)";
+        PreparedStatement ps;
 
         try {
             conn.setAutoCommit(false);
@@ -46,10 +46,10 @@ public class LivroDAO {
     }
 
     public List<Livro> listar(){
+        String sql = "SELECT * FROM livro WHERE estoque > 0";
         PreparedStatement ps;
         ResultSet rs;
         List<Livro> livros = new ArrayList<>();
-        String sql = "SELECT * FROM livro WHERE estoque > 0";
 
         try {
             conn.setAutoCommit(false);
@@ -71,6 +71,45 @@ public class LivroDAO {
             ps.close();
             conn.commit();
             conn.close();
+        } catch (SQLException e) {
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            throw new RuntimeException(e);
+        }
+        return livros;
+    }
+
+    public List<Livro> buscaPorTitulo(String livro){
+        String sql = "SELECT * FROM livro WHERE titulo ILIKE ?";
+        PreparedStatement ps;
+        ResultSet rs;
+        List<Livro> livros = new ArrayList<>();
+
+        try {
+            conn.setAutoCommit(false);
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, "%" + livro + "%");
+            rs = ps.executeQuery();
+
+            while (rs.next()){
+                Long id = rs.getLong(1);
+                String titulo = rs.getString(2);
+                String autor = rs.getString(3);
+                String genero = rs.getString(4);
+                Integer anoPublicacao = rs.getInt(5);
+                Integer estoque = rs.getInt(6);
+
+                livros.add(new Livro(id, titulo, autor, genero, anoPublicacao, estoque));
+            }
+
+            rs.close();
+            ps.close();
+            conn.commit();
+            conn.close();
+
         } catch (SQLException e) {
             try {
                 conn.rollback();

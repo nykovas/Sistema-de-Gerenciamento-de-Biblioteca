@@ -24,4 +24,10 @@ public class LivroService {
         List<Livro> livros = new LivroDAO(conn).listar();
         return livros;
     }
+
+    public List<Livro> buscarPorTitulo(String livro){
+        Connection conn = connection.restoreConnection();
+        List<Livro> livros = new LivroDAO(conn).buscaPorTitulo(livro);
+        return livros;
+    }
 }

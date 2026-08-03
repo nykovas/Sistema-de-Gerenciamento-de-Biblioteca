@@ -16,8 +16,8 @@ public class LivroMenu {
                  Menu de Livro
                 ===============
                 1. Cadastrar livro (Ok)
-                2. Listar livros (Manutenção)
-                3. Buscar livro por título (Manutenção)
+                2. Listar livros (Ok)
+                3. Buscar livro por título (Ok)
                 4. Remover livro (Manutenção)
                 """);
         System.out.print("Selecione a opção desejada: ");
@@ -29,6 +29,9 @@ public class LivroMenu {
                 break;
             case "2":
                 listarLivros();
+                break;
+            case "3":
+                buscarLivroPorTitulo();
                 break;
         }
     }
@@ -81,4 +84,28 @@ public class LivroMenu {
         }
     }
 
+    public static void buscarLivroPorTitulo(){
+        System.out.print("Digite o nome do livro que deseja buscar: ");
+        String titulo = teclado.nextLine();
+
+        List<Livro> livros = service.buscarPorTitulo(titulo);
+
+        for (Livro livro : livros) {
+            System.out.printf("""
+                    ---------------------------------------
+                    ID: %d
+                    Título: %s
+                    Autor: %s
+                    Gênero: %s
+                    Ano de Publicação: %s
+                    Estoque Disponível: %s
+                    """,
+                    livro.id(),
+                    livro.titulo(),
+                    livro.autor(),
+                    livro.genero(),
+                    livro.anoPublicacao(),
+                    livro.quantidade());
+        }
+    }
 }
