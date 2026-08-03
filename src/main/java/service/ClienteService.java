@@ -6,7 +6,6 @@ import model.Cliente;
 
 import java.sql.Connection;
 import java.util.List;
-import java.util.Set;
 
 public class ClienteService {
 

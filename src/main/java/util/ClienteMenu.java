@@ -44,9 +44,9 @@ public class ClienteMenu {
 
     public static void criarCliente(){
         System.out.println("""
-                ===================
-                Cadastro de Cliente
-                ===================
+                =====================
+                 Cadastro de Cliente
+                =====================
                 """);
         System.out.print("Digite o seu nome: ");
         String nome = teclado.nextLine();
