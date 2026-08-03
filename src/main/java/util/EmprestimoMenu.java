@@ -27,6 +27,7 @@ public class EmprestimoMenu {
             System.out.print("Seleciona a opção desejada: ");
 
             opcao = teclado.nextInt();
+            teclado.nextLine();
 
             switch (opcao){
                 case 1:

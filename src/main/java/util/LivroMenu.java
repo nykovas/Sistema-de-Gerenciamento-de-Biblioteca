@@ -20,12 +20,15 @@ public class LivroMenu {
                 1. Cadastrar livro
                 2. Listar livros
                 3. Buscar livro por título
-                4. Atualizar livro
-                5. Remover livro
+                4. Buscar livro por gênero
+                5. Atualizar livro
+                6. Remover livro
                 0. Sair
                 """);
             System.out.print("Selecione a opção desejada: ");
+
             opcao = teclado.nextInt();
+            teclado.nextLine();
 
             switch (opcao){
                 case 1:
@@ -38,9 +41,12 @@ public class LivroMenu {
                     buscarLivroPorTitulo();
                     break;
                 case 4:
-                    atualizarLivro();
+                    buscarLivroPorGenero();
                     break;
                 case 5:
+                    atualizarLivro();
+                    break;
+                case 6:
                     removerLivro();
                     break;
             }
@@ -120,6 +126,30 @@ public class LivroMenu {
         }
     }
 
+    private static void buscarLivroPorGenero(){
+        System.out.print("Digite o gênero do livro que deseja buscar: ");
+        String genero = teclado.nextLine();
+
+        List<Livro> livros = service.buscarPorGenero(genero);
+
+        for (Livro livro : livros) {
+            System.out.printf("""
+                    ---------------------------------------
+                    ID: %d
+                    Título: %s
+                    Autor: %s
+                    Gênero: %s
+                    Ano de Publicação: %s
+                    Estoque Disponível: %s
+                    """,
+                    livro.id(),
+                    livro.titulo(),
+                    livro.autor(),
+                    livro.genero(),
+                    livro.anoPublicacao(),
+                    livro.quantidade());
+        }
+    }
     private static void removerLivro(){
         System.out.print("Digite o id do livro que deseja apagar: ");
         Long id = teclado.nextLong();

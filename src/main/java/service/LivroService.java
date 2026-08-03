@@ -36,6 +36,15 @@ public class LivroService {
         return livros;
     }
 
+    public List<Livro> buscarPorGenero(String genero){
+        Connection conn = connection.restoreConnection();
+        List<Livro> livros = new LivroDAO(conn).buscaPorGenero(genero);
+        if (livros.isEmpty()){
+            System.out.println("Nenhum livro com o gênero: " + genero + " encontrado.");
+        }
+        return livros;
+    }
+
     public void removerLivro(Long id){
         Connection conn = connection.restoreConnection();
         verificarExistencia(id);

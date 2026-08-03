@@ -24,7 +24,9 @@ public class ClienteMenu {
                 0. Sair
                 """);
             System.out.print("Digite a opção desejada: ");
+
             opcao = teclado.nextInt();
+            teclado.nextLine();
 
             switch (opcao){
                 case 1:

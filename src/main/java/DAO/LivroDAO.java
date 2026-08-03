@@ -121,6 +121,45 @@ public class LivroDAO {
         return livros;
     }
 
+    public List<Livro> buscaPorGenero(String generoBusca){
+        String sql = "SELECT * FROM livro WHERE genero ILIKE ?";
+        PreparedStatement ps;
+        ResultSet rs;
+        List<Livro> livros = new ArrayList<>();
+
+        try {
+            conn.setAutoCommit(false);
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, "%" + generoBusca + "%");
+            rs = ps.executeQuery();
+
+            while (rs.next()){
+                Long id = rs.getLong(1);
+                String titulo = rs.getString(2);
+                String autor = rs.getString(3);
+                String genero = rs.getString(4);
+                Integer anoPublicacao = rs.getInt(5);
+                Integer estoque = rs.getInt(6);
+
+                livros.add(new Livro(id, titulo, autor, genero, anoPublicacao, estoque));
+            }
+
+            rs.close();
+            ps.close();
+            conn.commit();
+            conn.close();
+
+        } catch (SQLException e) {
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            throw new RuntimeException(e);
+        }
+        return livros;
+    }
+
     public void removerLivro(Long id){
         String sql = "UPDATE livro SET estoque = 0 WHERE id = ?";
         PreparedStatement ps;
