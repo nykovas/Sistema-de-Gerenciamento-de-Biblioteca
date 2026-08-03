@@ -30,4 +30,9 @@ public class LivroService {
         List<Livro> livros = new LivroDAO(conn).buscaPorTitulo(livro);
         return livros;
     }
+
+    public void removerLivro(Long id){
+        Connection conn = connection.restoreConnection();
+        new LivroDAO(conn).removerLivro(id);
+    }
 }

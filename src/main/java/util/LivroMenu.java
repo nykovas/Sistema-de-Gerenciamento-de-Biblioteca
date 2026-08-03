@@ -18,7 +18,7 @@ public class LivroMenu {
                 1. Cadastrar livro (Ok)
                 2. Listar livros (Ok)
                 3. Buscar livro por título (Ok)
-                4. Remover livro (Manutenção)
+                4. Remover livro (Ok)
                 """);
         System.out.print("Selecione a opção desejada: ");
         var opcao = teclado.nextLine();
@@ -32,6 +32,9 @@ public class LivroMenu {
                 break;
             case "3":
                 buscarLivroPorTitulo();
+                break;
+            case "4":
+                removerLivro();
                 break;
         }
     }
@@ -84,7 +87,7 @@ public class LivroMenu {
         }
     }
 
-    public static void buscarLivroPorTitulo(){
+    private static void buscarLivroPorTitulo(){
         System.out.print("Digite o nome do livro que deseja buscar: ");
         String titulo = teclado.nextLine();
 
@@ -107,5 +110,11 @@ public class LivroMenu {
                     livro.anoPublicacao(),
                     livro.quantidade());
         }
+    }
+
+    private static void removerLivro(){
+        System.out.print("Digite o id do livro que deseja apagar: ");
+        Long id = teclado.nextLong();
+        service.removerLivro(id);
     }
 }

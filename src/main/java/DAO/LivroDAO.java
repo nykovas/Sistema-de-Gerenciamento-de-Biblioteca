@@ -120,4 +120,28 @@ public class LivroDAO {
         }
         return livros;
     }
+
+    public void removerLivro(Long id){
+        String sql = "UPDATE livro SET estoque = 0 WHERE id = ?";
+        PreparedStatement ps;
+
+        try {
+            conn.setAutoCommit(false);
+            ps = conn.prepareStatement(sql);
+
+            ps.setLong(1, id);
+            ps.execute();
+
+            ps.close();
+            conn.commit();
+            conn.close();
+        } catch (SQLException e){
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            throw new RuntimeException(e);
+        }
+    }
 }
