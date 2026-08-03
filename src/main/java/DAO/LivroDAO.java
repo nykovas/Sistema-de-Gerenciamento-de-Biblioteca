@@ -46,7 +46,7 @@ public class LivroDAO {
     }
 
     public List<Livro> listar(){
-        String sql = "SELECT * FROM livro WHERE estoque > 0";
+        String sql = "SELECT * FROM livro WHERE estoque > 0 ORDER BY id";
         PreparedStatement ps;
         ResultSet rs;
         List<Livro> livros = new ArrayList<>();
@@ -131,6 +131,36 @@ public class LivroDAO {
 
             ps.setLong(1, id);
             ps.execute();
+
+            ps.close();
+            conn.commit();
+            conn.close();
+        } catch (SQLException e){
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void atualizarLivro(Livro livro){
+        String sql = "UPDATE livro SET titulo = ?, autor = ?, genero = ?, ano_publicacao = ?, estoque = ? WHERE id = ?";
+        PreparedStatement ps;
+
+        try {
+            conn.setAutoCommit(false);
+            ps = conn.prepareStatement(sql);
+
+            ps.setString(1, livro.titulo());
+            ps.setString(2, livro.autor());
+            ps.setString(3, livro.genero());
+            ps.setInt(4, livro.anoPublicacao());
+            ps.setInt(5, livro.quantidade());
+            ps.setLong(6, livro.id());
+
+            ps.executeUpdate();
 
             ps.close();
             conn.commit();

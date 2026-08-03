@@ -18,7 +18,8 @@ public class LivroMenu {
                 1. Cadastrar livro (Ok)
                 2. Listar livros (Ok)
                 3. Buscar livro por título (Ok)
-                4. Remover livro (Ok)
+                4. Atualizar livro (Manutenção)
+                5. Remover livro (Ok)
                 """);
         System.out.print("Selecione a opção desejada: ");
         var opcao = teclado.nextLine();
@@ -34,6 +35,9 @@ public class LivroMenu {
                 buscarLivroPorTitulo();
                 break;
             case "4":
+                atualizarLivro();
+                break;
+            case "5":
                 removerLivro();
                 break;
         }
@@ -116,5 +120,28 @@ public class LivroMenu {
         System.out.print("Digite o id do livro que deseja apagar: ");
         Long id = teclado.nextLong();
         service.removerLivro(id);
+    }
+
+    private static void atualizarLivro(){
+        System.out.print("Digite o id do livro que deseja alterar: ");
+        Long id = teclado.nextLong();
+        teclado.nextLine();
+
+        System.out.print("Digite o título do livro: ");
+        String titulo = teclado.nextLine();
+
+        System.out.print("Digite o autor do livro: ");
+        String autor = teclado.nextLine();
+
+        System.out.print("Digite o gênero do livro: ");
+        String genero = teclado.nextLine();
+
+        System.out.print("Digite o ano de publicação do livro: ");
+        Integer anoPublicacao = teclado.nextInt();
+
+        System.out.print("Digite o estoque inicial do livro: ");
+        Integer estoque = teclado.nextInt();
+
+        service.atualizarLivro(new Livro(id, titulo, autor, genero, anoPublicacao, estoque));
     }
 }

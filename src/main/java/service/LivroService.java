@@ -35,4 +35,9 @@ public class LivroService {
         Connection conn = connection.restoreConnection();
         new LivroDAO(conn).removerLivro(id);
     }
+
+    public void atualizarLivro(Livro livro){
+        Connection conn = connection.restoreConnection();
+        new LivroDAO(conn).atualizarLivro(livro);
+    }
 }
