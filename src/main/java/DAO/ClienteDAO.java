@@ -49,7 +49,7 @@ public class ClienteDAO {
         List<Cliente> clientes = new ArrayList<>();
         ResultSet rs;
         PreparedStatement ps;
-        String sql = "SELECT * FROM cliente ORDER BY id ASC";
+        String sql = "SELECT * FROM cliente WHERE esta_ativo = TRUE ORDER BY id ASC";
 
         try {
             conn.setAutoCommit(false);

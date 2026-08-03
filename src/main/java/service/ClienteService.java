@@ -30,4 +30,9 @@ public class ClienteService {
         Connection conn = connection.restoreConnection();
         return new ClienteDAO(conn).buscarPorId(id);
     }
+
+    public void desativarCliente(Integer id){
+        Connection conn = connection.restoreConnection();
+        new ClienteDAO(conn).desligarCliente(id);
+    }
 }

@@ -24,6 +24,9 @@ public class Main {
             case "8":
                 buscarClientePorId();
                 break;
+            case "10":
+                desativarCliente();
+                break;
         }
 
     }
@@ -39,9 +42,9 @@ public class Main {
                5 - Listar clientes         │ (Ok)
                6 - Listar empréstimos      │ (Manutenção)
                7 - Buscar livro por título │ (Manutenção)
-               8 - Buscar cliente por id   │ (Manutenção)
+               8 - Buscar cliente por id   │ (Ok)
                9 - Remover livro           │ (Manutenção)
-              10 - Remover cliente         │ (Manutenção)
+              10 - Remover cliente         │ (Ok)
                0 - Sair                    │ (Manutenção)
               \s""");
         System.out.print("Selecione a opção desejada: ");
@@ -107,5 +110,12 @@ public class Main {
                     cliente.telefone(),
                     cliente.esta_ativo() ? "Sim" : "Não");
         }
+    }
+
+    private static void desativarCliente(){
+        System.out.print("Digite o id do cliente a ser desativado: ");
+        Integer id = teclado.nextInt();
+
+        service.desativarCliente(id);
     }
 }
