@@ -7,6 +7,7 @@ public class Menu {
                 1. Área de Clientes
                 2. Área de Livros
                 3. Área de Emprestimos
+                0. Sair
                 """);
         System.out.print("Selecione a opção desejada: ");
     }

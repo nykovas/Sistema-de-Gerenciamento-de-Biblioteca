@@ -174,4 +174,34 @@ public class LivroDAO {
             throw new RuntimeException(e);
         }
     }
+
+    public Long verificarExistencia(Long id){
+        String sql = "SELECT id FROM cliente WHERE id = ?";
+        PreparedStatement ps;
+        ResultSet rs;
+        Long idBusca = null;
+
+        try {
+            conn.setAutoCommit(false);
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while (rs.next()){
+                idBusca = rs.getLong(1);
+            }
+
+            rs.close();
+            ps.close();
+            conn.commit();
+            conn.close();
+        } catch (SQLException e) {
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            throw new RuntimeException(e);
+        }
+        return idBusca;
+    }
 }

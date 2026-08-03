@@ -14,24 +14,28 @@ public class EmprestimoMenu {
     private static EmprestimoService service = new EmprestimoService();
 
     public static void emprestimoMenu(){
-        System.out.println("""
+        var opcao = -1;
+        while (opcao != 0){
+            System.out.println("""
                 ====================
                  Menu de Empréstimo
                 ====================
-                1. Realizar empréstimo (Ok)
-                2. Listar empréstimos (Ok)
+                1. Realizar empréstimo
+                2. Listar empréstimos
+                0. Sair
                 """);
-        System.out.print("Seleciona a opção desejada: ");
+            System.out.print("Seleciona a opção desejada: ");
 
-        var opcao = teclado.nextLine();
+            opcao = teclado.nextInt();
 
-        switch (opcao){
-            case "1":
-                criarEmprestimo();
-                break;
-            case "2":
-                listarEmprestimos();
-                break;
+            switch (opcao){
+                case 1:
+                    criarEmprestimo();
+                    break;
+                case 2:
+                    listarEmprestimos();
+                    break;
+            }
         }
     }
 

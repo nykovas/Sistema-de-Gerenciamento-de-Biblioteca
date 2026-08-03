@@ -1,6 +1,6 @@
 package model;
 
-public record Cliente(Integer id,
+public record Cliente(Long id,
                       String nome,
                       String email,
                       String telefone,

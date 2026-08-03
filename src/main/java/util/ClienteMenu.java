@@ -10,7 +10,9 @@ public class ClienteMenu {
     private static Scanner teclado = new Scanner(System.in);
     private static ClienteService service = new ClienteService();
     public static void clienteMenu(){
-        System.out.println("""
+        int opcao = -1;
+        while (opcao != 0){
+            System.out.println("""
                 =================
                  Menu do Cliente
                 =================
@@ -19,28 +21,34 @@ public class ClienteMenu {
                 3. Buscar cliente por nome
                 4. Atualizar cliente
                 5. Desativar cliente
+                0. Sair
                 """);
-        System.out.print("Digite a opção desejada: ");
-        var opcao = teclado.nextLine();
+            System.out.print("Digite a opção desejada: ");
+            opcao = teclado.nextInt();
 
-        switch (opcao){
-            case "1":
-                criarCliente();
-                break;
-            case "2":
-                listarCliente();
-                break;
-            case "3":
-                buscarClientePorId();
-                break;
-            case "4":
-                atualizarCliente();
-                break;
-            case "5":
-                desativarCliente();
-                break;
+            switch (opcao){
+                case 1:
+                    criarCliente();
+                    break;
+                case 2:
+                    listarCliente();
+                    break;
+                case 3:
+                    buscarClientePorId();
+                    break;
+                case 4:
+                    atualizarCliente();
+                    break;
+                case 5:
+                    desativarCliente();
+                    break;
+                case 0:
+                    break;
+                default:
+                    System.out.println("Opção inválida.");
+            }
         }
-    }
+        }
 
     private static void criarCliente(){
         System.out.println("""
@@ -82,7 +90,7 @@ public class ClienteMenu {
 
     private static void buscarClientePorId() {
         System.out.print("Digite o id de busca: ");
-        Integer id = teclado.nextInt();
+        Long id = teclado.nextLong();
 
         List<Cliente> clienteBusca = service.buscarPorId(id);
 
@@ -111,7 +119,7 @@ public class ClienteMenu {
                 """);
 
         System.out.print("Selecione o id do cliente a ser alterado: ");
-        Integer id = teclado.nextInt();
+        Long id = teclado.nextLong();
         teclado.nextLine();
 
         System.out.print("Digite o nome novo do cliente: ");
@@ -133,7 +141,7 @@ public class ClienteMenu {
                 ========================
                 """);
         System.out.print("Digite o id do cliente a ser desativado: ");
-        Integer id = teclado.nextInt();
+        Long id = teclado.nextLong();
 
         service.desativarCliente(id);
     }

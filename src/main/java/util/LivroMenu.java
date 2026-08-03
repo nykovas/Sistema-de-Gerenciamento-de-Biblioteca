@@ -11,35 +11,39 @@ public class LivroMenu {
     private static Scanner teclado = new Scanner(System.in);
     private static LivroService service = new LivroService();
     public static void livroMenu(){
-        System.out.println("""
+        int opcao = -1;
+        while (opcao != 0){
+            System.out.println("""
                 ===============
                  Menu de Livro
                 ===============
-                1. Cadastrar livro (Ok)
-                2. Listar livros (Ok)
-                3. Buscar livro por título (Ok)
-                4. Atualizar livro (Manutenção)
-                5. Remover livro (Ok)
+                1. Cadastrar livro
+                2. Listar livros
+                3. Buscar livro por título
+                4. Atualizar livro
+                5. Remover livro
+                0. Sair
                 """);
-        System.out.print("Selecione a opção desejada: ");
-        var opcao = teclado.nextLine();
+            System.out.print("Selecione a opção desejada: ");
+            opcao = teclado.nextInt();
 
-        switch (opcao){
-            case "1":
-                cadastrarLivro();
-                break;
-            case "2":
-                listarLivros();
-                break;
-            case "3":
-                buscarLivroPorTitulo();
-                break;
-            case "4":
-                atualizarLivro();
-                break;
-            case "5":
-                removerLivro();
-                break;
+            switch (opcao){
+                case 1:
+                    cadastrarLivro();
+                    break;
+                case 2:
+                    listarLivros();
+                    break;
+                case 3:
+                    buscarLivroPorTitulo();
+                    break;
+                case 4:
+                    atualizarLivro();
+                    break;
+                case 5:
+                    removerLivro();
+                    break;
+            }
         }
     }
 

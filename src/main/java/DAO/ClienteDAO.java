@@ -55,7 +55,7 @@ public class ClienteDAO {
             rs = ps.executeQuery();
 
             while (rs.next()){
-                Integer id = rs.getInt(1);
+                Long id = rs.getLong(1);
                 String nome = rs.getString(2);
                 String email = rs.getString(3);
                 String telefone = rs.getString(4);
@@ -77,7 +77,7 @@ public class ClienteDAO {
         }
         return clientes;
     }
-    public List<Cliente> buscarPorId(Integer idBusca){
+    public List<Cliente> buscarPorId(Long idBusca){
         String sql = "SELECT * FROM cliente WHERE id = ? AND esta_ativo = TRUE";
         PreparedStatement ps;
         ResultSet rs;
@@ -86,11 +86,11 @@ public class ClienteDAO {
         try {
             conn.setAutoCommit(false);
             ps = conn.prepareStatement(sql);
-            ps.setInt(1, idBusca);
+            ps.setLong(1, idBusca);
             rs = ps.executeQuery();
 
             while (rs.next()){
-                Integer id = rs.getInt(1);
+                Long id = rs.getLong(1);
                 String nome = rs.getString(2);
                 String email = rs.getString(3);
                 String telefone = rs.getString(4);
@@ -115,7 +115,7 @@ public class ClienteDAO {
             ps.setString(1, cliente.nome());
             ps.setString(2, cliente.email());
             ps.setString(3, cliente.telefone());
-            ps.setInt(4, cliente.id());
+            ps.setLong(4, cliente.id());
 
             ps.executeUpdate();
 
@@ -132,7 +132,7 @@ public class ClienteDAO {
         }
     }
 
-    public void desligarCliente(Integer id){
+    public void desligarCliente(Long id){
         String sql = "UPDATE cliente SET esta_ativo = FALSE WHERE id = ?";
         PreparedStatement ps;
 
@@ -140,7 +140,7 @@ public class ClienteDAO {
             conn.setAutoCommit(false);
             ps = conn.prepareStatement(sql);
 
-            ps.setInt(1, id);
+            ps.setLong(1, id);
             ps.executeUpdate();
 
             conn.commit();
@@ -154,5 +154,36 @@ public class ClienteDAO {
             }
             throw new RuntimeException(e);
         }
+    }
+
+    public Long verificarExistencia(Long id){
+        String sql = "SELECT id FROM cliente WHERE id = ?";
+        PreparedStatement ps;
+        ResultSet rs;
+        Long idBusca = null;
+
+        try {
+            conn.setAutoCommit(false);
+            ps = conn.prepareStatement(sql);
+            ps.setLong(1, id);
+            rs = ps.executeQuery();
+
+            while (rs.next()){
+                idBusca = rs.getLong(1);
+            }
+
+            rs.close();
+            ps.close();
+            conn.commit();
+            conn.close();
+        } catch (SQLException e) {
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            throw new RuntimeException(e);
+        }
+        return idBusca;
     }
 }
