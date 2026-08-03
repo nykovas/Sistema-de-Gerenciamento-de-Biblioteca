@@ -96,9 +96,9 @@ public class ClienteDAO {
                 String nome = rs.getString(2);
                 String email = rs.getString(3);
                 String telefone = rs.getString(4);
-                Boolean esta_ativo = rs.getBoolean(5);
+                Boolean estaAtivo = rs.getBoolean(5);
 
-                clientes.add(new Cliente(id, nome, email, telefone, esta_ativo));
+                clientes.add(new Cliente(id, nome, email, telefone, estaAtivo));
             }
         } catch (SQLException e){
             throw new RuntimeException(e);
@@ -106,9 +106,9 @@ public class ClienteDAO {
         return clientes;
     }
 
-    public void atualizar(Cliente cliente, Integer id){
+    public void atualizar(Cliente cliente){
         PreparedStatement ps;
-        String sql = "UPDATE cliente SET nome = ?, email = ?, telefone = ? WHERE id = ?";
+        String sql = "UPDATE cliente SET nome = ?, email = ?, telefone = ? WHERE id = ? AND esta_ativo = TRUE";
 
         try {
             conn.setAutoCommit(false);
@@ -117,7 +117,7 @@ public class ClienteDAO {
             ps.setString(1, cliente.nome());
             ps.setString(2, cliente.email());
             ps.setString(3, cliente.telefone());
-            ps.setInt(4, id);
+            ps.setInt(4, cliente.id());
 
             ps.executeUpdate();
 
