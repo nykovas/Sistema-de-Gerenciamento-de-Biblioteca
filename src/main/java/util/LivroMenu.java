@@ -1,8 +1,10 @@
 package util;
 
+import model.Cliente;
 import model.Livro;
 import service.LivroService;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class LivroMenu {
@@ -26,7 +28,8 @@ public class LivroMenu {
                 cadastrarLivro();
                 break;
             case "2":
-
+                listarLivros();
+                break;
         }
     }
 
@@ -54,6 +57,28 @@ public class LivroMenu {
         Integer quantidade = teclado.nextInt();
 
         service.cadastrarLivro(new Livro(titulo, autor, genero, anoPublicacao, quantidade));
+    }
+
+    private static void listarLivros(){
+        List<Livro> livros = service.listarLivros();
+
+        for (Livro livro : livros) {
+            System.out.printf("""
+                    ---------------------------------------
+                    ID: %d
+                    Título: %s
+                    Autor: %s
+                    Gênero: %s
+                    Ano de Publicação: %s
+                    Estoque Disponível: %s
+                    """,
+                    livro.id(),
+                    livro.titulo(),
+                    livro.autor(),
+                    livro.genero(),
+                    livro.anoPublicacao(),
+                    livro.quantidade());
+        }
     }
 
 }

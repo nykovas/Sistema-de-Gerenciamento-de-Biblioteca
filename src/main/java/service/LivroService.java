@@ -5,6 +5,7 @@ import database.ConnectionFactory;
 import model.Livro;
 
 import java.sql.Connection;
+import java.util.List;
 
 public class LivroService {
     private final ConnectionFactory connection;
@@ -16,5 +17,11 @@ public class LivroService {
     public void cadastrarLivro(Livro livro){
         Connection conn = connection.restoreConnection();
         new LivroDAO(conn).inserir(livro);
+    }
+
+    public List<Livro> listarLivros(){
+        Connection conn = connection.restoreConnection();
+        List<Livro> livros = new LivroDAO(conn).listar();
+        return livros;
     }
 }

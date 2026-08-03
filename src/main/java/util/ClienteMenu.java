@@ -42,7 +42,7 @@ public class ClienteMenu {
         }
     }
 
-    public static void criarCliente(){
+    private static void criarCliente(){
         System.out.println("""
                 =====================
                  Cadastro de Cliente
@@ -60,7 +60,7 @@ public class ClienteMenu {
         service.criarCliente(new Cliente(nome, email, telefone, true));
     }
 
-    public static void listarCliente(){
+    private static void listarCliente(){
         List<Cliente> clientes = service.listarCliente();
 
         for (Cliente cliente : clientes) {
@@ -80,7 +80,7 @@ public class ClienteMenu {
         }
     }
 
-    public static void buscarClientePorId() {
+    private static void buscarClientePorId() {
         System.out.print("Digite o id de busca: ");
         Integer id = teclado.nextInt();
 
@@ -103,7 +103,7 @@ public class ClienteMenu {
         }
     }
 
-    public static void atualizarCliente(){
+    private static void atualizarCliente(){
         System.out.println("""
                 ========================
                  Atualização de Cliente
@@ -126,7 +126,7 @@ public class ClienteMenu {
         service.atualizarCliente(new Cliente(id, nome, email, telefone, true));
     }
 
-    public static void desativarCliente(){
+    private static void desativarCliente(){
         System.out.println("""
                 ========================
                  Desativação de Cliente
