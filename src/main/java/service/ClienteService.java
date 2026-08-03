@@ -5,6 +5,8 @@ import database.ConnectionFactory;
 import model.Cliente;
 
 import java.sql.Connection;
+import java.util.List;
+import java.util.Set;
 
 public class ClienteService {
 
@@ -17,5 +19,15 @@ public class ClienteService {
     public void criarCliente(Cliente cliente){
         Connection conn = connection.restoreConnection();
         new ClienteDAO(conn).inserir(cliente);
+    }
+
+    public List<Cliente> listarCliente(){
+        Connection conn = connection.restoreConnection();
+        return new ClienteDAO(conn).listar();
+    }
+
+    public List<Cliente> buscarPorId(Integer id){
+        Connection conn = connection.restoreConnection();
+        return new ClienteDAO(conn).buscarPorId(id);
     }
 }

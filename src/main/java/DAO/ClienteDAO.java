@@ -6,7 +6,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class ClienteDAO {
@@ -43,11 +45,11 @@ public class ClienteDAO {
         }
     }
 
-    public Set<Cliente> listar (){
-        Set<Cliente> clientes = new HashSet<>();
+    public List<Cliente> listar (){
+        List<Cliente> clientes = new ArrayList<>();
         ResultSet rs;
         PreparedStatement ps;
-        String sql = "SELECT * FROM cliente ORDER BY id";
+        String sql = "SELECT * FROM cliente ORDER BY id ASC";
 
         try {
             conn.setAutoCommit(false);
@@ -77,16 +79,16 @@ public class ClienteDAO {
         }
         return clientes;
     }
-    public Set<Cliente> buscarPorNome(String nomeBusca){
+    public List<Cliente> buscarPorId(Integer idBusca){
         PreparedStatement ps;
         ResultSet rs;
-        Set<Cliente> clientes = new HashSet<>();
+        List<Cliente> clientes = new ArrayList<>();
 
         try {
-            String sql = "SELECT * FROM cliente WHERE nome = ? AND esta_ativo = TRUE";
+            String sql = "SELECT * FROM cliente WHERE id = ? AND esta_ativo = TRUE";
             conn.setAutoCommit(false);
             ps = conn.prepareStatement(sql);
-            ps.setString(1, nomeBusca);
+            ps.setInt(1, idBusca);
             rs = ps.executeQuery();
 
             while (rs.next()){
