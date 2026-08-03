@@ -1,15 +1,41 @@
 package util;
 
+import service.EmprestimoService;
+
+import java.time.LocalDate;
+import java.util.Scanner;
+
 public class EmprestimoMenu {
+
+    private static Scanner teclado = new Scanner(System.in);
+    private static EmprestimoService service = new EmprestimoService();
 
     public static void emprestimoMenu(){
         System.out.println("""
                 ====================
                  Menu de Empréstimo
                 ====================
-                1. Realizar empréstimo (Manutenção)
+                1. Realizar empréstimo (Ok)
                 2. Listar empréstimos (Manutenção)
                 """);
         System.out.print("Seleciona a opção desejada: ");
+
+        var opcao = teclado.nextLine();
+
+        switch (opcao){
+            case "1":
+                criarEmprestimo();
+                break;
+        }
+    }
+
+    private static void criarEmprestimo(){
+        System.out.print("Digite o id do cliente: ");
+        Long idCliente = teclado.nextLong();
+
+        System.out.print("Digite o id do livro: ");
+        Long idLivro = teclado.nextLong();
+
+        service.criarEmprestimo(idCliente, idLivro, LocalDate.now());
     }
 }
