@@ -1,14 +1,13 @@
 package DAO;
 
-import model.Cliente;
 import model.Emprestimo;
-import model.Livro;
+import model.EmprestimoNomeado;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EmprestimoDAO {
 
@@ -42,5 +41,51 @@ public class EmprestimoDAO {
             }
             throw new RuntimeException(e);
         }
+    }
+
+    public List<EmprestimoNomeado> listar(){
+        String sql = """
+                SELECT e.id,
+                       c.nome,
+                       l.titulo,
+                       e.data_emprestimo
+                FROM emprestimo e
+                INNER JOIN cliente c ON c.id = e.id_cliente
+                INNER JOIN livro l ON l.id = e.id_livro
+                ORDER BY id
+                """;
+        PreparedStatement ps;
+        ResultSet rs;
+        List<EmprestimoNomeado> emprestimos = new ArrayList<>();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        try {
+            conn.setAutoCommit(false);
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while (rs.next()){
+                Long id = rs.getLong(1);
+                String nome = rs.getString(2);
+                String livro = rs.getString(3);
+                LocalDate date = rs.getDate(4).toLocalDate();
+
+                emprestimos.add(new EmprestimoNomeado(id, nome, livro, date.format(formatter)));
+            }
+
+            ps.close();
+            rs.close();
+            conn.rollback();
+            conn.close();
+
+        } catch (SQLException e) {
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            throw new RuntimeException(e);
+        }
+        return emprestimos;
     }
 }
