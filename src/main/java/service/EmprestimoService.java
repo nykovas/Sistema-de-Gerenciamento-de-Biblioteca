@@ -23,10 +23,10 @@ public class EmprestimoService {
         this.connection = new ConnectionFactory();
     }
 
-    public void criarEmprestimo(Long clienteId, Long livroId, LocalDate date){
+    public void criarEmprestimo(Emprestimo emprestimo){
         Connection conn = connection.restoreConnection();
-        validarEmprestimo(new Emprestimo(null, clienteId, livroId, date));
-        new EmprestimoDAO(conn).inserir(new Emprestimo(null, clienteId, livroId, date));
+        validarEmprestimo(emprestimo);
+        new EmprestimoDAO(conn).inserir(emprestimo);
     }
 
     public List<EmprestimoNomeado> listarEmprestimos(){

@@ -18,7 +18,7 @@ public class LivroService {
 
     public void cadastrarLivro(Livro livro){
         Connection conn = connection.restoreConnection();
-        validarLivro(livro, conn);
+        validarLivro(livro);
         new LivroDAO(conn).inserir(livro);
     }
 
@@ -53,10 +53,12 @@ public class LivroService {
 
     public void atualizarLivro(Livro livro){
         Connection conn = connection.restoreConnection();
+        verificarExistencia(livro.id());
+        validarLivro(livro);
         new LivroDAO(conn).atualizarLivro(livro);
     }
 
-    private void validarLivro(Livro livro, Connection conn){
+    private void validarLivro(Livro livro){
         if (livro.titulo() == null || livro.titulo().isBlank()){
             throw new ValidacaoException("O título não pode estar vazio.");
         }
@@ -74,7 +76,7 @@ public class LivroService {
         Connection conn = connection.restoreConnection();
         LivroDAO livroDAO = new LivroDAO(conn);
         if (!Objects.equals(id, livroDAO.verificarExistencia(id))){
-            throw new ValidacaoException("Nenhum livro encontrado.");
+            throw new ValidacaoException("Nenhum livro com o id: " + id + "encontrado.");
         }
     }
 }

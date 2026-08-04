@@ -27,10 +27,9 @@ public class ClienteService {
         return new ClienteDAO(conn).listar();
     }
 
-    public List<Cliente> buscarPorId(Long id){
+    public List<Cliente> buscarPorId(String nome){
         Connection conn = connection.restoreConnection();
-        verificarExistencia(id);
-        return new ClienteDAO(conn).buscarPorId(id);
+        return new ClienteDAO(conn).buscarPorId(nome);
     }
 
     public void atualizarCliente(Cliente cliente){

@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ClienteMenu {
-    private static Scanner teclado = new Scanner(System.in);
-    private static ClienteService service = new ClienteService();
+    private static final Scanner teclado = new Scanner(System.in);
+    private static final ClienteService service = new ClienteService();
     public static void clienteMenu(){
         int opcao = -1;
         while (opcao != 0){
@@ -91,10 +91,10 @@ public class ClienteMenu {
     }
 
     private static void buscarClientePorId() {
-        System.out.print("Digite o id de busca: ");
-        Long id = teclado.nextLong();
+        System.out.print("Digite o nome de busca: ");
+        String nome = teclado.nextLine();
 
-        List<Cliente> clienteBusca = service.buscarPorId(id);
+        List<Cliente> clienteBusca = service.buscarPorId(nome);
 
         for (Cliente cliente : clienteBusca) {
             System.out.printf("""

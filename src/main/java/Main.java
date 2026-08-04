@@ -6,7 +6,7 @@ import static util.LivroMenu.*;
 import static util.Menu.*;
 
 public class Main {
-    private static Scanner teclado = new Scanner(System.in);
+    private static final Scanner teclado = new Scanner(System.in);
     static void main(String[] args) {
         int opcao = -1;
         while (opcao != 0) {

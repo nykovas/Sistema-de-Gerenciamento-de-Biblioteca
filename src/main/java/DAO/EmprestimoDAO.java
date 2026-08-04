@@ -77,7 +77,7 @@ public class EmprestimoDAO {
 
             ps.close();
             rs.close();
-            conn.rollback();
+            conn.commit();
             conn.close();
 
         } catch (SQLException e) {

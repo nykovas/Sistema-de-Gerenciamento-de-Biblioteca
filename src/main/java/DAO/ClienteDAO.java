@@ -1,5 +1,4 @@
 package DAO;
-
 import model.Cliente;
 
 import java.sql.Connection;
@@ -77,8 +76,8 @@ public class ClienteDAO {
         }
         return clientes;
     }
-    public List<Cliente> buscarPorId(Long idBusca){
-        String sql = "SELECT * FROM cliente WHERE id = ? AND esta_ativo = TRUE";
+    public List<Cliente> buscarPorId(String nomeBusca){
+        String sql = "SELECT * FROM cliente WHERE nome ILIKE ? AND esta_ativo = TRUE";
         PreparedStatement ps;
         ResultSet rs;
         List<Cliente> clientes = new ArrayList<>();
@@ -86,7 +85,7 @@ public class ClienteDAO {
         try {
             conn.setAutoCommit(false);
             ps = conn.prepareStatement(sql);
-            ps.setLong(1, idBusca);
+            ps.setString(1, "%" + nomeBusca + "%");
             rs = ps.executeQuery();
 
             while (rs.next()){
@@ -98,6 +97,15 @@ public class ClienteDAO {
 
                 clientes.add(new Cliente(id, nome, email, telefone, estaAtivo));
             }
+
+            if (clientes.isEmpty()){
+                System.out.println("Nenhum cliente encontrado.");
+            }
+
+            ps.close();
+            rs.close();
+            conn.commit();
+            conn.close();
         } catch (SQLException e){
             throw new RuntimeException(e);
         }
@@ -143,9 +151,9 @@ public class ClienteDAO {
             ps.setLong(1, id);
             ps.executeUpdate();
 
+            ps.close();
             conn.commit();
             conn.close();
-            ps.close();
         } catch (SQLException e){
             try {
                 conn.rollback();

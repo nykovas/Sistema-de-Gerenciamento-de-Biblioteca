@@ -1,5 +1,6 @@
 package util;
 
+import model.Emprestimo;
 import model.EmprestimoCliente;
 import model.EmprestimoNomeado;
 import model.EmprestimoTopCinco;
@@ -11,8 +12,8 @@ import java.util.Scanner;
 
 public class EmprestimoMenu {
 
-    private static Scanner teclado = new Scanner(System.in);
-    private static EmprestimoService service = new EmprestimoService();
+    private static final Scanner teclado = new Scanner(System.in);
+    private static final EmprestimoService service = new EmprestimoService();
 
     public static void emprestimoMenu(){
         var opcao = -1;
@@ -60,7 +61,7 @@ public class EmprestimoMenu {
         System.out.print("Digite o id do livro: ");
         Long idLivro = teclado.nextLong();
 
-        service.criarEmprestimo(idCliente, idLivro, LocalDate.now());
+        service.criarEmprestimo(new Emprestimo(null, idCliente, idLivro, LocalDate.now()));
     }
 
     private static void listarEmprestimos(){
@@ -71,7 +72,7 @@ public class EmprestimoMenu {
                    ID: %d
                    Cliente: %s
                    Livro: %s
-                   Data: %s
+                   Data do empréstimo: %s
                    """,
                    emprestimo.id(),
                    emprestimo.nomeCliente(),

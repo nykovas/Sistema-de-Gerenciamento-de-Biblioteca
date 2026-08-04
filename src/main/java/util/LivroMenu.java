@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class LivroMenu {
-    private static Scanner teclado = new Scanner(System.in);
-    private static LivroService service = new LivroService();
+    private static final Scanner teclado = new Scanner(System.in);
+    private static final LivroService service = new LivroService();
     public static void livroMenu(){
         int opcao = -1;
         while (opcao != 0){
@@ -49,6 +49,10 @@ public class LivroMenu {
                 case 6:
                     removerLivro();
                     break;
+                case 0:
+                    break;
+                default:
+                    System.out.println("Opção inválida.");
             }
         }
     }
