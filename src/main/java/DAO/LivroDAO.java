@@ -215,7 +215,7 @@ public class LivroDAO {
     }
 
     public Long verificarExistencia(Long id){
-        String sql = "SELECT id FROM cliente WHERE id = ?";
+        String sql = "SELECT id FROM livro WHERE id = ?";
         PreparedStatement ps;
         ResultSet rs;
         Long idBusca = null;
