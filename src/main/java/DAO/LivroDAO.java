@@ -223,6 +223,7 @@ public class LivroDAO {
         try {
             conn.setAutoCommit(false);
             ps = conn.prepareStatement(sql);
+            ps.setLong(1, id);
             rs = ps.executeQuery();
 
             while (rs.next()){

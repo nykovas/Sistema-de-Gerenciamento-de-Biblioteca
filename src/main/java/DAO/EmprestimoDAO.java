@@ -1,5 +1,6 @@
 package DAO;
 
+import model.EmprestimoCliente;
 import model.Emprestimo;
 import model.EmprestimoNomeado;
 import model.EmprestimoTopCinco;
@@ -115,6 +116,11 @@ public class EmprestimoDAO {
 
                 topCinco.add(new EmprestimoTopCinco(titulo, contagem));
             }
+
+            rs.close();
+            ps.close();
+            conn.commit();
+            conn.close();
         } catch (SQLException e) {
             try {
                 conn.rollback();
@@ -124,5 +130,45 @@ public class EmprestimoDAO {
             throw new RuntimeException(e);
         }
         return topCinco;
+    }
+
+    public List<EmprestimoCliente> listarEmprestimoPorCliente(){
+        String sql = """
+                SELECT c.nome,
+                       count(*)
+                FROM emprestimo e
+                INNER JOIN cliente c ON c.id = e.id_cliente
+                GROUP BY c.nome
+                ORDER BY count(*) DESC;
+                """;
+        PreparedStatement ps;
+        ResultSet rs;
+        List<EmprestimoCliente> clientesEmprestimos = new ArrayList<>();
+
+        try {
+            conn.setAutoCommit(false);
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while (rs.next()){
+                String nome = rs.getString(1);
+                Integer quantidade  = rs.getInt(2);
+
+                clientesEmprestimos.add(new EmprestimoCliente(nome, quantidade));
+            }
+
+            rs.close();
+            ps.close();
+            conn.commit();
+            conn.close();
+        } catch (SQLException e) {
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            throw new RuntimeException(e);
+        }
+        return clientesEmprestimos;
     }
 }

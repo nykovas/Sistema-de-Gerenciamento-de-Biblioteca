@@ -1,6 +1,6 @@
 package util;
 
-import model.Cliente;
+import model.EmprestimoCliente;
 import model.EmprestimoNomeado;
 import model.EmprestimoTopCinco;
 import service.EmprestimoService;
@@ -24,6 +24,7 @@ public class EmprestimoMenu {
                 1. Realizar empréstimo
                 2. Listar empréstimos
                 3. Listar top cinco mais emprestados
+                4. Listar quantidade de emprestimos por cliente
                 0. Sair
                 """);
             System.out.print("Seleciona a opção desejada: ");
@@ -41,6 +42,13 @@ public class EmprestimoMenu {
                 case 3:
                     listarTopCinco();
                     break;
+                case 4:
+                    listarQuantidadeDeEmprestimoPorCliente();
+                    break;
+                case 0:
+                    break;
+                default:
+                    System.out.println("Opção inválida");
             }
         }
     }
@@ -82,6 +90,19 @@ public class EmprestimoMenu {
                    """,
                     emprestimo.titulo(),
                     emprestimo.contagem());
+        }
+    }
+
+    private static void listarQuantidadeDeEmprestimoPorCliente(){
+        List<EmprestimoCliente> emprestimoClientes = service.listarQuantidadeDeEmprestimosPorCliente();
+        for (EmprestimoCliente emprestimo : emprestimoClientes) {
+            System.out.printf("""
+                   ---------------------------------------
+                   Cliente: %s
+                   Quantidade de emprestimos: %s
+                   """,
+                    emprestimo.nome(),
+                    emprestimo.quantidade());
         }
     }
 }

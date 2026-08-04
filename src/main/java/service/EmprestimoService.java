@@ -6,6 +6,7 @@ import DAO.LivroDAO;
 import database.ConnectionFactory;
 import exception.ValidacaoException;
 import model.Emprestimo;
+import model.EmprestimoCliente;
 import model.EmprestimoNomeado;
 import model.EmprestimoTopCinco;
 
@@ -30,15 +31,17 @@ public class EmprestimoService {
 
     public List<EmprestimoNomeado> listarEmprestimos(){
         Connection conn = connection.restoreConnection();
-        List<EmprestimoNomeado> emprestimos = new EmprestimoDAO(conn).listar();
-        return emprestimos;
+        return new EmprestimoDAO(conn).listar();
     }
 
     public List<EmprestimoTopCinco> listarTopCinco(){
         Connection conn = connection.restoreConnection();
-        List<EmprestimoTopCinco> emprestimoTopCincos = new EmprestimoDAO(conn)
-                .listarCincoMaisEmprestados();
-        return emprestimoTopCincos;
+        return new EmprestimoDAO(conn).listarCincoMaisEmprestados();
+    }
+
+    public List<EmprestimoCliente> listarQuantidadeDeEmprestimosPorCliente() {
+        Connection conn = connection.restoreConnection();
+        return new EmprestimoDAO(conn).listarEmprestimoPorCliente();
     }
 
     private void validarEmprestimo(Emprestimo emprestimo){
