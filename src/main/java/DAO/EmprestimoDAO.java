@@ -2,6 +2,7 @@ package DAO;
 
 import model.Emprestimo;
 import model.EmprestimoNomeado;
+import model.EmprestimoTopCinco;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -87,5 +88,41 @@ public class EmprestimoDAO {
             throw new RuntimeException(e);
         }
         return emprestimos;
+    }
+
+    public List<EmprestimoTopCinco> listarCincoMaisEmprestados(){
+        List<EmprestimoTopCinco> topCinco = new ArrayList<>();
+        String sql = """
+                SELECT l.titulo,
+                       count(*)
+                FROM emprestimo e
+                INNER JOIN livro l ON l.id = e.id_livro
+                GROUP BY l.titulo
+                ORDER BY count(*) DESC
+                LIMIT 5
+                """;
+        PreparedStatement ps;
+        ResultSet rs;
+
+        try {
+            conn.setAutoCommit(false);
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while (rs.next()){
+                String titulo = rs.getString(1);
+                Integer contagem = rs.getInt(2);
+
+                topCinco.add(new EmprestimoTopCinco(titulo, contagem));
+            }
+        } catch (SQLException e) {
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            throw new RuntimeException(e);
+        }
+        return topCinco;
     }
 }

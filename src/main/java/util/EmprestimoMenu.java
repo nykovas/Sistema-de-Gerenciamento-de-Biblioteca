@@ -2,6 +2,7 @@ package util;
 
 import model.Cliente;
 import model.EmprestimoNomeado;
+import model.EmprestimoTopCinco;
 import service.EmprestimoService;
 
 import java.time.LocalDate;
@@ -22,6 +23,7 @@ public class EmprestimoMenu {
                 ====================
                 1. Realizar empréstimo
                 2. Listar empréstimos
+                3. Listar top cinco mais emprestados
                 0. Sair
                 """);
             System.out.print("Seleciona a opção desejada: ");
@@ -35,6 +37,9 @@ public class EmprestimoMenu {
                     break;
                 case 2:
                     listarEmprestimos();
+                    break;
+                case 3:
+                    listarTopCinco();
                     break;
             }
         }
@@ -64,6 +69,19 @@ public class EmprestimoMenu {
                    emprestimo.nomeCliente(),
                    emprestimo.nomeLivro(),
                    emprestimo.date());
+        }
+    }
+
+    private static void listarTopCinco(){
+        List<EmprestimoTopCinco> emprestimoTopCincos = service.listarTopCinco();
+        for (EmprestimoTopCinco emprestimo : emprestimoTopCincos) {
+            System.out.printf("""
+                   ---------------------------------------
+                   Livro: %s
+                   Quantidade emprestados: %s
+                   """,
+                    emprestimo.titulo(),
+                    emprestimo.contagem());
         }
     }
 }

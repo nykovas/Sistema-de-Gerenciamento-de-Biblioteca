@@ -7,6 +7,7 @@ import database.ConnectionFactory;
 import exception.ValidacaoException;
 import model.Emprestimo;
 import model.EmprestimoNomeado;
+import model.EmprestimoTopCinco;
 
 import java.sql.Connection;
 import java.time.LocalDate;
@@ -31,6 +32,13 @@ public class EmprestimoService {
         Connection conn = connection.restoreConnection();
         List<EmprestimoNomeado> emprestimos = new EmprestimoDAO(conn).listar();
         return emprestimos;
+    }
+
+    public List<EmprestimoTopCinco> listarTopCinco(){
+        Connection conn = connection.restoreConnection();
+        List<EmprestimoTopCinco> emprestimoTopCincos = new EmprestimoDAO(conn)
+                .listarCincoMaisEmprestados();
+        return emprestimoTopCincos;
     }
 
     private void validarEmprestimo(Emprestimo emprestimo){
