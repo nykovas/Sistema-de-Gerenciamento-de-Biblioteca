@@ -1,4 +1,4 @@
-package model;
+package br.com.nyk.sgb.model;
 
 public record Livro(Long id,
                     String titulo,

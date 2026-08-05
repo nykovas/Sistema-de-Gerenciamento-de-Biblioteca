@@ -1,8 +1,7 @@
-package util;
+package br.com.nyk.sgb.view;
 
-import model.Cliente;
-import model.Livro;
-import service.LivroService;
+import br.com.nyk.sgb.model.Livro;
+import br.com.nyk.sgb.service.LivroService;
 
 import java.util.List;
 import java.util.Scanner;
@@ -32,22 +31,22 @@ public class LivroMenu {
 
             switch (opcao){
                 case 1:
-                    cadastrarLivro();
+                    System.out.println("Em manutenção.");
                     break;
                 case 2:
-                    listarLivros();
+                    System.out.println("Em manutenção.");
                     break;
                 case 3:
-                    buscarLivroPorTitulo();
+                    System.out.println("Em manutenção.");
                     break;
                 case 4:
-                    buscarLivroPorGenero();
+                    System.out.println("Em manutenção.");
                     break;
                 case 5:
-                    atualizarLivro();
+                    System.out.println("Em manutenção.");
                     break;
                 case 6:
-                    removerLivro();
+                    System.out.println("Em manutenção.");
                     break;
                 case 0:
                     break;

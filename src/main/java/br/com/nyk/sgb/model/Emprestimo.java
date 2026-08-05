@@ -1,4 +1,4 @@
-package model;
+package br.com.nyk.sgb.model;
 
 import java.time.LocalDate;
 

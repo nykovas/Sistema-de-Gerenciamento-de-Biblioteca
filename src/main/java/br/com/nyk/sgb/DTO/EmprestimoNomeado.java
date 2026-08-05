@@ -1,4 +1,4 @@
-package model;
+package br.com.nyk.sgb.DTO;
 
 public record EmprestimoNomeado(Long id,
                                 String nomeCliente,

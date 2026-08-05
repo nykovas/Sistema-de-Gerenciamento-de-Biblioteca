@@ -1,4 +1,4 @@
-package exception;
+package br.com.nyk.sgb.exception;
 
 public class ValidacaoException extends RuntimeException {
     public ValidacaoException(String message) {

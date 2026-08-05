@@ -1,35 +1,35 @@
-package service;
+package br.com.nyk.sgb.service;
 
-import DAO.LivroDAO;
-import database.ConnectionFactory;
-import exception.ValidacaoException;
-import model.Livro;
+import br.com.nyk.sgb.dao.LivroDAO;
+import br.com.nyk.sgb.database.EntityFactory;
+import br.com.nyk.sgb.exception.ValidacaoException;
+import jakarta.persistence.EntityManager;
+import br.com.nyk.sgb.model.Livro;
 
-import java.sql.Connection;
 import java.util.List;
 import java.util.Objects;
 
 public class LivroService {
-    private final ConnectionFactory connection;
+    private final EntityFactory entity;
 
     public LivroService(){
-        this.connection = new ConnectionFactory();
+        this.entity = new EntityFactory();
     }
 
     public void cadastrarLivro(Livro livro){
-        Connection conn = connection.restoreConnection();
+        EntityManager em = entity.entityManager();
         validarLivro(livro);
-        new LivroDAO(conn).inserir(livro);
+        new LivroDAO(em).inserir(livro);
     }
 
     public List<Livro> listarLivros(){
-        Connection conn = connection.restoreConnection();
-        return new LivroDAO(conn).listar();
+        EntityManager em = entity.entityManager();
+        return new LivroDAO(em).listar();
     }
 
     public List<Livro> buscarPorTitulo(String livro){
-        Connection conn = connection.restoreConnection();
-        List<Livro> livros = new LivroDAO(conn).buscaPorTitulo(livro);
+        EntityManager em = entity.entityManager();
+        List<Livro> livros = new LivroDAO(em).buscaPorTitulo(livro);
         if (livros.isEmpty()){
             System.out.println("Nenhum livro encontrado.");
         }
@@ -37,8 +37,8 @@ public class LivroService {
     }
 
     public List<Livro> buscarPorGenero(String genero){
-        Connection conn = connection.restoreConnection();
-        List<Livro> livros = new LivroDAO(conn).buscaPorGenero(genero);
+        EntityManager em = entity.entityManager();
+        List<Livro> livros = new LivroDAO(em).buscaPorGenero(genero);
         if (livros.isEmpty()){
             System.out.println("Nenhum livro com o gênero: " + genero + " encontrado.");
         }
@@ -46,16 +46,16 @@ public class LivroService {
     }
 
     public void removerLivro(Long id){
-        Connection conn = connection.restoreConnection();
+        EntityManager em = entity.entityManager();
         verificarExistencia(id);
-        new LivroDAO(conn).removerLivro(id);
+        new LivroDAO(em).removerLivro(id);
     }
 
     public void atualizarLivro(Livro livro){
-        Connection conn = connection.restoreConnection();
+        EntityManager em = entity.entityManager();
         verificarExistencia(livro.id());
         validarLivro(livro);
-        new LivroDAO(conn).atualizarLivro(livro);
+        new LivroDAO(em).atualizarLivro(livro);
     }
 
     private void validarLivro(Livro livro){
@@ -73,8 +73,8 @@ public class LivroService {
         }
     }
     private void verificarExistencia(Long id){
-        Connection conn = connection.restoreConnection();
-        LivroDAO livroDAO = new LivroDAO(conn);
+        EntityManager em = entity.entityManager();
+        LivroDAO livroDAO = new LivroDAO(em);
         if (!Objects.equals(id, livroDAO.verificarExistencia(id))){
             throw new ValidacaoException("Nenhum livro com o id: " + id + "encontrado.");
         }

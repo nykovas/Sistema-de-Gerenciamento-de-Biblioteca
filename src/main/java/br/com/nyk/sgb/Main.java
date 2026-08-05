@@ -1,9 +1,9 @@
+package br.com.nyk.sgb;
+
 import java.util.Scanner;
 
-import static util.ClienteMenu.*;
-import static util.EmprestimoMenu.*;
-import static util.LivroMenu.*;
-import static util.Menu.*;
+import static br.com.nyk.sgb.view.ClienteMenu.*;
+import static br.com.nyk.sgb.view.Menu.*;
 
 public class Main {
     private static final Scanner teclado = new Scanner(System.in);
@@ -18,10 +18,10 @@ public class Main {
                     clienteMenu();
                     break;
                 case 2:
-                    livroMenu();
+                    System.out.println("Em manutenção.");
                     break;
                 case 3:
-                    emprestimoMenu();
+                    System.out.println("Em manutenção.");
                     break;
                 case 0:
                     break;

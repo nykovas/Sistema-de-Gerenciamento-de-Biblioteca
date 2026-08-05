@@ -1,9 +1,10 @@
-package util;
+package br.com.nyk.sgb.view;
 
-import model.Cliente;
-import service.ClienteService;
+import br.com.nyk.sgb.model.Cliente;
+import br.com.nyk.sgb.service.ClienteService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class ClienteMenu {
@@ -19,8 +20,9 @@ public class ClienteMenu {
                 1. Cadastrar cliente
                 2. Listar clientes
                 3. Buscar cliente por nome
-                4. Atualizar cliente
-                5. Desativar cliente
+                4. Buscar cliente por id
+                5. Atualizar cliente
+                6. Desativar cliente
                 0. Sair
                 """);
             System.out.print("Digite a opção desejada: ");
@@ -33,15 +35,18 @@ public class ClienteMenu {
                     criarCliente();
                     break;
                 case 2:
-                    listarCliente();
+                    listarClientes();
                     break;
                 case 3:
-                    buscarClientePorId();
+                    buscarClientePorNome();
                     break;
                 case 4:
-                    atualizarCliente();
+                    buscarClientePorId();
                     break;
                 case 5:
+                    atualizarCliente();
+                    break;
+                case 6:
                     desativarCliente();
                     break;
                 case 0:
@@ -67,11 +72,17 @@ public class ClienteMenu {
         System.out.print("Digite seu telefone: ");
         String telefone = teclado.nextLine();
 
-        service.criarCliente(new Cliente(nome, email, telefone, true));
+        service.criarCliente(new Cliente(null, nome, email, telefone, true));
     }
 
-    private static void listarCliente(){
+    private static void listarClientes(){
         List<Cliente> clientes = service.listarCliente();
+
+        if (clientes.isEmpty()){
+            System.out.println("A lista de clientes está vazia.");
+            System.out.println("Retornando...");
+            return;
+        }
 
         for (Cliente cliente : clientes) {
             System.out.printf("""
@@ -82,21 +93,28 @@ public class ClienteMenu {
                     Telefone: %s
                     Ativo: %s
                     """,
-                    cliente.id(),
-                    cliente.nome(),
-                    cliente.email(),
-                    cliente.telefone(),
-                    cliente.estaAtivo() ? "Sim" : "Não");
+                    cliente.getId(),
+                    cliente.getNome(),
+                    cliente.getEmail(),
+                    cliente.getTelefone(),
+                    cliente.getEstaAtivo() ? "Sim" : "Não");
         }
     }
 
-    private static void buscarClientePorId() {
+    private static void buscarClientePorNome() {
         System.out.print("Digite o nome de busca: ");
         String nome = teclado.nextLine();
 
-        List<Cliente> clienteBusca = service.buscarPorId(nome);
+        Optional<Cliente> clienteOptional = service.buscarPorNome(nome);
 
-        for (Cliente cliente : clienteBusca) {
+        if (clienteOptional.isEmpty()){
+            System.out.println("Nenhum cliente encontrado");
+            System.out.println("Retornando...");
+            return;
+        }
+
+        Cliente cliente = clienteOptional.get();
+
             System.out.printf("""
                    ---------------------------------------
                    ID: %d
@@ -105,12 +123,40 @@ public class ClienteMenu {
                    Telefone: %s
                    Ativo: %s
                    """,
-                    cliente.id(),
-                    cliente.nome(),
-                    cliente.email(),
-                    cliente.telefone(),
-                    cliente.estaAtivo() ? "Sim" : "Não");
+                   cliente.getId(),
+                   cliente.getNome(),
+                   cliente.getEmail(),
+                   cliente.getTelefone(),
+                   cliente.getEstaAtivo() ? "Sim" : "Não");
+    }
+
+    private static void buscarClientePorId(){
+        System.out.print("Digite o id de busca: ");
+        Long id = teclado.nextLong();
+
+        Optional<Cliente> clienteOptional = service.buscarPorId(id);
+
+        if (clienteOptional.isEmpty()){
+            System.out.println("Nenhum cliente com o id: " + id + " encontrado");
+            System.out.println("Retornando...");
+            return;
         }
+
+        Cliente cliente = clienteOptional.get();
+
+        System.out.printf("""
+                   ---------------------------------------
+                   ID: %d
+                   Nome: %s
+                   E-mail: %s
+                   Telefone: %s
+                   Ativo: %s
+                   """,
+                cliente.getId(),
+                cliente.getNome(),
+                cliente.getEmail(),
+                cliente.getTelefone(),
+                cliente.getEstaAtivo() ? "Sim" : "Não");
     }
 
     private static void atualizarCliente(){

@@ -1,11 +1,13 @@
 # 📚 Sistema de Gerenciamento de Biblioteca
 
-> Aplicação de console desenvolvida em Java para simular a rotina de uma biblioteca, com persistência em PostgreSQL via JDBC puro. Projeto prático de estudos, criado para consolidar conhecimentos sólidos em backend antes de avançar para frameworks como Spring.
+> Aplicação de console desenvolvida em Java para simular a rotina de uma biblioteca, utilizando **JPA (Jakarta Persistence)** com **Hibernate** para persistência em PostgreSQL. O projeto surgiu como uma evolução de uma versão originalmente desenvolvida com **JDBC puro**, servindo como estudo da migração entre diferentes abordagens de acesso a dados e da adoção de um ORM.
 
 ![Java](https://img.shields.io/badge/Java-25-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+![JPA](https://img.shields.io/badge/JPA-3.x-6DB33F?style=for-the-badge)
+![Hibernate](https://img.shields.io/badge/Hibernate-7.x-59666C?style=for-the-badge&logo=hibernate&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
 ![Maven](https://img.shields.io/badge/Maven-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white)
-![Status](https://img.shields.io/badge/status-concluído-brightgreen?style=for-the-badge)
+![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow?style=for-the-badge)
 
 ## 📑 Índice
 
@@ -21,9 +23,11 @@
 
 ## 📖 Sobre o Projeto
 
-O **Sistema de Gerenciamento de Biblioteca (SGB)** é uma aplicação de console desenvolvida em Java, criada como projeto prático de estudos para consolidar conhecimentos em **JDBC, PostgreSQL, Programação Orientada a Objetos, Collections e organização de código em camadas** (Model, DAO, Service e View).
+O **Sistema de Gerenciamento de Biblioteca (SGB)** é uma aplicação de console desenvolvida em Java, criada como projeto prático de estudos para consolidar conhecimentos em **JPA (Jakarta Persistence), Hibernate, PostgreSQL, Programação Orientada a Objetos e arquitetura em camadas** (DAO, Service, Model e View).
 
-O sistema simula as operações do dia a dia de uma biblioteca: cadastro e gerenciamento de clientes e livros, controle de empréstimos e geração de relatórios simples, como o ranking dos livros mais emprestados e a quantidade de empréstimos por cliente.
+O sistema simula as operações do dia a dia de uma biblioteca: cadastro e gerenciamento de clientes e livros, controle de empréstimos e geração de relatórios, como o ranking dos livros mais emprestados e a quantidade de empréstimos por cliente.
+
+A persistência é realizada por meio do **Hibernate** como implementação da especificação **JPA**, permitindo o mapeamento objeto-relacional (ORM) entre as entidades Java e o banco de dados PostgreSQL.
 
 ## 🖥️ Demonstração
 
@@ -71,131 +75,177 @@ O projeto já inclui um diagrama entidade-relacionamento do banco de dados:
 
 Este projeto foi utilizado como campo de prática para os seguintes conceitos:
 
-- **Arquitetura em camadas**: separação clara de responsabilidades entre `Model`, `DAO` (acesso a dados), `Service` (regras de negócio) e `View` (menus de console)
-- **JDBC puro**, sem uso de ORM — controle manual do ciclo completo de conexão, `PreparedStatement` e `ResultSet`
-- **Prevenção de SQL Injection** com `PreparedStatement` em 100% das queries da aplicação
-- **Controle manual de transações** (`commit` / `rollback` / `setAutoCommit(false)`) para garantir consistência dos dados
-- **Connection Pooling** com HikariCP, evitando o custo de abrir/fechar conexões a cada operação
-- **Boas práticas de segurança**: credenciais do banco isoladas em variáveis de ambiente (`.env` + `dotenv-java`), com o arquivo devidamente listado no `.gitignore`
-- **Exceções de negócio customizadas** (`ValidacaoException`) para validações da camada de serviço
-- **Java Records** para modelagem imutável e concisa das entidades e DTOs
-- **Text Blocks** (Java 15+) para deixar SQLs e telas de console mais legíveis
-- **Collections** (`List`, `ArrayList`) para manipular os dados retornados do banco
-- **Consultas SQL com `JOIN`, `GROUP BY`, `COUNT` e `LIMIT`** para gerar os relatórios (Top 5 e ranking por cliente)
-- **Scripts SQL versionados** (`V1__`, `V2__`) para controle evolutivo do schema do banco
-
+- **Arquitetura em camadas**: separação entre `DAO`, `Service`, `Model` e `View`
+- **JPA (Jakarta Persistence)** para abstração da camada de persistência
+- **Hibernate ORM** como implementação da JPA
+- **Mapeamento objeto-relacional (ORM)** utilizando anotações (`@Entity`, `@Table`, `@Id`, `@GeneratedValue`, `@OneToMany`, `@ManyToOne`, etc.)
+- **JPQL (Java Persistence Query Language)** para consultas orientadas a objetos
+- **EntityManager** para gerenciamento do ciclo de vida das entidades
+- **Controle de transações** utilizando `EntityTransaction`
+- **Soft Delete** para clientes através do campo `estaAtivo`
+- **DTOs (Data Transfer Objects)** para consultas específicas e projeções
+- **Java Records** para modelagem imutável de DTOs
+- **Exceções customizadas** (`ValidacaoException`) para validações da camada de serviço
+- **Collections** (`List`, `ArrayList`)
+- **Organização do projeto seguindo boas práticas de arquitetura**
+- 
 ## 🛠️ Tecnologias Utilizadas
 
-| Tecnologia | Versão | Finalidade |
-|---|---|---|
-| Java | 25 | Linguagem principal da aplicação |
-| Maven | — | Gerenciamento de dependências e build |
-| PostgreSQL | — | Banco de dados relacional |
-| PostgreSQL JDBC Driver | 42.7.13 | Conexão entre a aplicação e o banco |
-| HikariCP | 7.1.0 | Pool de conexões com o banco de dados |
-| dotenv-java | 3.2.0 | Carregamento de variáveis de ambiente a partir do `.env` |
-| Git & GitHub | — | Controle de versão |
+| Tecnologia                | Versão | Finalidade                    |
+|---------------------------|--------|-------------------------------|
+| Java                      | 25     | Linguagem principal           |
+| Maven                     | —      | Gerenciamento de dependências |
+| PostgreSQL                | —      | Banco de dados                |
+| Jakarta Persistence (JPA) | 3.x    | API de persistência           |
+| Hibernate ORM             | 7.x    | Implementação da JPA          |
+| PostgreSQL JDBC Driver    | 42.x   | Driver de conexão             |
+| Git & GitHub              | —      | Controle de versão            |
+
+
 
 ## 📂 Estrutura do Projeto
 
 ```
-src/main/java/
-├── Main.java                    # Ponto de entrada da aplicação (menu principal)
-├── database/
-│   └── ConnectionFactory.java   # Configuração do pool de conexões (HikariCP + dotenv)
-├── model/                       # Entidades e DTOs (Java Records)
-│   ├── Cliente.java
-│   ├── Livro.java
-│   ├── Emprestimo.java
-│   ├── EmprestimoNomeado.java   # Projeção de empréstimo com nomes (via JOIN)
-│   ├── EmprestimoTopCinco.java  # DTO do relatório Top 5
-│   └── EmprestimoCliente.java   # DTO de empréstimos por cliente
-├── DAO/                         # Acesso a dados — JDBC + SQL puro
-│   ├── ClienteDAO.java
-│   ├── LivroDAO.java
-│   └── EmprestimoDAO.java
-├── service/                     # Regras de negócio e validações
-│   ├── ClienteService.java
-│   ├── LivroService.java
-│   └── EmprestimoService.java
-├── util/                        # Camada de apresentação (menus de console)
-│   ├── Menu.java
-│   ├── ClienteMenu.java
-│   ├── LivroMenu.java
-│   └── EmprestimoMenu.java
-└── exception/
-    └── ValidacaoException.java  # Exceção customizada para regras de negócio
+## 📁 Estrutura do Projeto
 
-scripts_sql/
-├── V1__create_tables.sql        # Criação das tabelas (cliente, livro, emprestimo)
-└── V2__insert_values.sql        # Dados de exemplo (seed) para testes
+## 📂 Estrutura do Projeto
+
+```text
+src/
+└── main/
+    ├── java/
+    │   └── br/
+    │       └── com/
+    │           └── nyk/
+    │               └── sgb/
+    │                   ├── DAO/
+    │                   ├── database/
+    │                   │   └── EntityFactory.java
+    │                   ├── DTO/
+    │                   ├── exception/
+    │                   ├── model/
+    │                   ├── service/
+    │                   ├── view/
+    │                   └── Main.java
+    └── resources/
+        └── META-INF/
+            └── persistence.xml
 ```
 
 ## 🚀 Como Executar o Projeto
 
 ### Pré-requisitos
 
-- [JDK 25](https://jdk.java.net/25/) ou superior
-- [Maven 3.8+](https://maven.apache.org/download.cgi)
-- [PostgreSQL](https://www.postgresql.org/download/) instalado e em execução
+Antes de executar a aplicação, certifique-se de possuir:
+
+- JDK 25 ou superior
+- Maven 3.8+
+- PostgreSQL instalado e em execução
 - Git
 
-### Passo a passo
+### 1. Clone o repositório
 
-**1. Clone o repositório**
 ```bash
-git clone https://github.com/SEU-USUARIO/sistema-gerenciamento-biblioteca.git
+git clone https://github.com/nykovas/sistema-gerenciamento-biblioteca.git
 cd sistema-gerenciamento-biblioteca
 ```
 
-**2. Crie o banco de dados no PostgreSQL**
+### 2. Crie o banco de dados
+
+No PostgreSQL, execute:
+
 ```sql
 CREATE DATABASE biblioteca;
 ```
 
-**3. Execute os scripts SQL, na ordem, para criar as tabelas e popular os dados de exemplo**
-```bash
-psql -U seu_usuario -d biblioteca -f scripts_sql/V1__create_tables.sql
-psql -U seu_usuario -d biblioteca -f scripts_sql/V2__insert_values.sql
+### 3. Configure a persistência
+
+O projeto utiliza **JPA (Jakarta Persistence)** com **Hibernate** como implementação ORM.
+
+Crie o arquivo abaixo:
+
+```text
+src/main/resources/META-INF/persistence.xml
 ```
 
-**4. Configure as variáveis de ambiente** — crie um arquivo `.env` na raiz do projeto (veja o formato abaixo)
+e utilize a seguinte configuração:
 
-**5. Compile o projeto**
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             version="3.2">
+
+    <persistence-unit name="biblioteca">
+
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <class>br.com.nyk.sgb.model.Cliente</class>
+        <class>br.com.nyk.sgb.model.Livro</class>
+        <class>br.com.nyk.sgb.model.Emprestimo</class>
+
+        <properties>
+
+            <!-- Configuração do banco -->
+            <property name="jakarta.persistence.jdbc.driver"
+                      value="org.postgresql.Driver"/>
+
+            <property name="jakarta.persistence.jdbc.url"
+                      value="jdbc:postgresql://localhost:5432/biblioteca"/>
+
+            <property name="jakarta.persistence.jdbc.user"
+                      value="SEU_USUARIO"/>
+
+            <property name="jakarta.persistence.jdbc.password"
+                      value="SUA_SENHA"/>
+
+            <!-- Configuração do Hibernate -->
+            <property name="hibernate.hbm2ddl.auto"
+                      value="update"/>
+
+            <property name="hibernate.show_sql"
+                      value="true"/>
+
+            <property name="hibernate.format_sql"
+                      value="true"/>
+
+        </properties>
+
+    </persistence-unit>
+
+</persistence>
+```
+
+> **Observação:** substitua `SEU_USUARIO` e `SUA_SENHA` pelas credenciais do seu PostgreSQL.
+
+### 4. Compile o projeto
+
 ```bash
 mvn clean compile
 ```
 
-**6. Execute a aplicação**
+### 5. Execute a aplicação
 
-O projeto ainda não possui um plugin de execução configurado no `pom.xml`, então a forma mais simples de rodar é através da sua IDE (ex: IntelliJ IDEA — clique com o botão direito em `Main.java` → `Run`). Para rodar via terminal sem uma IDE, configure o `exec-maven-plugin` ou gere um *fat jar* com o `maven-shade-plugin` (veja [Próximos Passos](#-próximos-passos--melhorias-futuras)).
+Execute a classe:
 
-### Variáveis de Ambiente
-
-Crie um arquivo `.env` na raiz do projeto com as seguintes chaves:
-
-```env
-DB_URL=jdbc:postgresql://localhost:5432/biblioteca
-DB_USER=seu_usuario_postgres
-DB_PASSWORD=sua_senha_postgres
+```text
+br.com.nyk.sgb.Main
 ```
 
-> ⚠️ O `.env` já está listado no `.gitignore` — nunca versione suas credenciais reais.
+pela sua IDE (IntelliJ IDEA, Eclipse ou VS Code).
+
+---
 
 ## 🔮 Próximos Passos / Melhorias Futuras
 
 - [ ] Implementar testes automatizados (JUnit + Mockito)
 - [ ] Evoluir a aplicação para uma API REST com **Spring Boot**
-- [ ] Migrar a camada de persistência de JDBC puro para **Spring Data JPA / Hibernate**
+- [ ] Migrar a camada de persistência para **Spring Data JPA**
 - [ ] Adicionar autenticação e autorização com **Spring Security**
-- [ ] Adicionar paginação nas listagens
+- [ ] Implementar paginação nas consultas
 - [ ] Substituir os `System.out.println` por um framework de logging (SLF4J + Logback)
-- [ ] Tornar a leitura do console mais robusta (tratar entradas inválidas sem quebrar a aplicação)
-- [ ] Padronizar nomenclatura dos campos entre os records (ex: `id_cliente` → `idCliente`)
-- [ ] Padronizar convenções de nomenclatura de pacotes (ex: `dao` em vez de `DAO`, conforme convenção oficial do Java)
-- [ ] Configurar `exec-maven-plugin` ou `maven-shade-plugin` para facilitar a execução via terminal
-- [ ] Containerizar aplicação e banco de dados com Docker / Docker Compose
-- [ ] Adicionar uma licença de código aberto (ex: MIT)
+- [ ] Tornar a leitura do console mais robusta, tratando entradas inválidas
+- [ ] Containerizar a aplicação e o banco de dados com Docker / Docker Compose
+- [ ] Adicionar uma licença de código aberto (MIT)
 
 ## 👨‍💻 Autor
 

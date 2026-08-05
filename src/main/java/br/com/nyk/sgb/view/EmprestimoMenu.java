@@ -1,10 +1,10 @@
-package util;
+package br.com.nyk.sgb.view;
 
-import model.Emprestimo;
-import model.EmprestimoCliente;
-import model.EmprestimoNomeado;
-import model.EmprestimoTopCinco;
-import service.EmprestimoService;
+import br.com.nyk.sgb.model.Emprestimo;
+import br.com.nyk.sgb.DTO.EmprestimoCliente;
+import br.com.nyk.sgb.DTO.EmprestimoNomeado;
+import br.com.nyk.sgb.DTO.EmprestimoTopCinco;
+import br.com.nyk.sgb.service.EmprestimoService;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -35,16 +35,16 @@ public class EmprestimoMenu {
 
             switch (opcao){
                 case 1:
-                    criarEmprestimo();
+                    System.out.println("Em manutenção.");
                     break;
                 case 2:
-                    listarEmprestimos();
+                    System.out.println("Em manutenção.");
                     break;
                 case 3:
-                    listarTopCinco();
+                    System.out.println("Em manutenção.");
                     break;
                 case 4:
-                    listarQuantidadeDeEmprestimoPorCliente();
+                    System.out.println("Em manutenção.");
                     break;
                 case 0:
                     break;
