@@ -1,12 +1,12 @@
 package br.com.nyk.sgb.view;
 
+import br.com.nyk.sgb.model.Cliente;
 import br.com.nyk.sgb.model.Emprestimo;
 import br.com.nyk.sgb.DTO.EmprestimoCliente;
 import br.com.nyk.sgb.DTO.EmprestimoNomeado;
 import br.com.nyk.sgb.DTO.EmprestimoTopCinco;
+import br.com.nyk.sgb.model.Livro;
 import br.com.nyk.sgb.service.EmprestimoService;
-
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
@@ -35,16 +35,16 @@ public class EmprestimoMenu {
 
             switch (opcao){
                 case 1:
-                    System.out.println("Em manutenção.");
+                    criarEmprestimo();
                     break;
                 case 2:
-                    System.out.println("Em manutenção.");
+                    listarEmprestimos();
                     break;
                 case 3:
-                    System.out.println("Em manutenção.");
+                    listarTopCinco();
                     break;
                 case 4:
-                    System.out.println("Em manutenção.");
+                    listarQuantidadeDeEmprestimoPorCliente();
                     break;
                 case 0:
                     break;
@@ -61,11 +61,20 @@ public class EmprestimoMenu {
         System.out.print("Digite o id do livro: ");
         Long idLivro = teclado.nextLong();
 
-        service.criarEmprestimo(new Emprestimo(null, idCliente, idLivro, LocalDate.now()));
+        Cliente cliente = new Cliente(idCliente, null, null, null, true);
+        Livro livro = new Livro(idLivro, null, null, null, null, null);
+
+        service.criarEmprestimo(new Emprestimo(null, cliente, livro));
     }
 
     private static void listarEmprestimos(){
         List<EmprestimoNomeado> emprestimos = service.listarEmprestimos();
+
+        if (emprestimos.isEmpty()){
+            System.out.println("A lista de emprestimos está vazia.");
+            return;
+        }
+
         for (EmprestimoNomeado emprestimo : emprestimos) {
             System.out.printf("""
                    ---------------------------------------
@@ -82,8 +91,14 @@ public class EmprestimoMenu {
     }
 
     private static void listarTopCinco(){
-        List<EmprestimoTopCinco> emprestimoTopCincos = service.listarTopCinco();
-        for (EmprestimoTopCinco emprestimo : emprestimoTopCincos) {
+        List<EmprestimoTopCinco> emprestimoTopCinco = service.listarTopCinco();
+
+        if (emprestimoTopCinco.isEmpty()){
+            System.out.println("A lista dos top 5 livros mais emprestados está vazia.");
+            return;
+        }
+
+        for (EmprestimoTopCinco emprestimo : emprestimoTopCinco) {
             System.out.printf("""
                    ---------------------------------------
                    Livro: %s
@@ -96,6 +111,12 @@ public class EmprestimoMenu {
 
     private static void listarQuantidadeDeEmprestimoPorCliente(){
         List<EmprestimoCliente> emprestimoClientes = service.listarQuantidadeDeEmprestimosPorCliente();
+
+        if (emprestimoClientes.isEmpty()){
+            System.out.println("A lista de emprestimos está vazia.");
+            return;
+        }
+
         for (EmprestimoCliente emprestimo : emprestimoClientes) {
             System.out.printf("""
                    ---------------------------------------

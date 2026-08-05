@@ -6,6 +6,7 @@ import jakarta.persistence.EntityManager;
 import java.util.Scanner;
 
 import static br.com.nyk.sgb.view.ClienteMenu.*;
+import static br.com.nyk.sgb.view.EmprestimoMenu.emprestimoMenu;
 import static br.com.nyk.sgb.view.LivroMenu.livroMenu;
 import static br.com.nyk.sgb.view.Menu.*;
 
@@ -25,7 +26,7 @@ public class Main {
                     livroMenu();
                     break;
                 case 3:
-                    System.out.println("Em manutenção.");
+                    emprestimoMenu();
                     break;
                 case 0:
                     EntityFactory.fecharFactory();
