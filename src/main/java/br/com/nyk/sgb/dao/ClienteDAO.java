@@ -24,8 +24,7 @@ public class ClienteDAO {
                 em.getTransaction().rollback();
             }
             System.err.println("Erro ao salvar no banco: " + e.getMessage());
-        } finally {
-            em.close();
+            throw e;
         }
     }
 
@@ -68,8 +67,7 @@ public class ClienteDAO {
                 em.getTransaction().rollback();
             }
             System.err.println("Ocorreu um erro ao tentar atualizar o cliente: " + e.getCause());
-        } finally {
-            em.close();
+            throw e;
         }
     }
 
@@ -86,8 +84,7 @@ public class ClienteDAO {
                 em.getTransaction().rollback();
             }
             System.err.println("Ocorreu um erro ao tentar desativar o cliente: " + e.getMessage());
-        } finally {
-            em.close();
+            throw e;
         }
     }
 }

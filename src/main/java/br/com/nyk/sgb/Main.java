@@ -1,8 +1,12 @@
 package br.com.nyk.sgb;
 
+import br.com.nyk.sgb.database.EntityFactory;
+import jakarta.persistence.EntityManager;
+
 import java.util.Scanner;
 
 import static br.com.nyk.sgb.view.ClienteMenu.*;
+import static br.com.nyk.sgb.view.LivroMenu.livroMenu;
 import static br.com.nyk.sgb.view.Menu.*;
 
 public class Main {
@@ -18,12 +22,13 @@ public class Main {
                     clienteMenu();
                     break;
                 case 2:
-                    System.out.println("Em manutenção.");
+                    livroMenu();
                     break;
                 case 3:
                     System.out.println("Em manutenção.");
                     break;
                 case 0:
+                    EntityFactory.fecharFactory();
                     break;
                 default:
                     System.out.println("Opção inválida.");

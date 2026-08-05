@@ -18,35 +18,40 @@ public class ClienteService {
     }
 
     public void criarCliente(Cliente cliente){
-        System.out.println(cliente);
-        EntityManager em = entity.entityManager();
-        new ClienteDAO(em).inserir(cliente);
+        try(EntityManager em = entity.entityManager()){
+            new ClienteDAO(em).inserir(cliente);
+        }
     }
 
     public List<Cliente> listarCliente(){
-        EntityManager em = entity.entityManager();
-        return new ClienteDAO(em).listar();
+        try(EntityManager em = entity.entityManager()){
+            return new ClienteDAO(em).listar();
+        }
     }
 
     public Optional<Cliente> buscarPorNome(String nome){
-        EntityManager em = entity.entityManager();
-        return new ClienteDAO(em).buscarPorNome(nome);
+        try(EntityManager em = entity.entityManager()){
+            return new ClienteDAO(em).buscarPorNome(nome);
+        }
     }
 
     public Optional<Cliente> buscarPorId(Long id){
-        EntityManager em = entity.entityManager();
-        return new ClienteDAO(em).buscarPorId(id);
+        try(EntityManager em = entity.entityManager()){
+            return new ClienteDAO(em).buscarPorId(id);
+        }
     }
 
     public void atualizarCliente(Cliente cliente){
-        EntityManager em = entity.entityManager();
-        validarCliente(cliente);
-        new ClienteDAO(em).atualizar(cliente);
+        try(EntityManager em = entity.entityManager()){
+            validarCliente(cliente);
+            new ClienteDAO(em).atualizar(cliente);
+        }
     }
 
     public void desativarCliente(Long id){
-        EntityManager em = entity.entityManager();
-        new ClienteDAO(em).desativar(id);
+        try(EntityManager em = entity.entityManager()){
+            new ClienteDAO(em).desativar(id);
+        }
     }
 
     private void validarCliente(Cliente cliente){

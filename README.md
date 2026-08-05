@@ -89,20 +89,18 @@ Este projeto foi utilizado como campo de prática para os seguintes conceitos:
 - **Exceções customizadas** (`ValidacaoException`) para validações da camada de serviço
 - **Collections** (`List`, `ArrayList`)
 - **Organização do projeto seguindo boas práticas de arquitetura**
-  
+
 ## Tecnologias Utilizadas
 
-| Tecnologia                | Versão      | Finalidade                    |
-|---------------------------|-------------|-------------------------------|
-| Java                      | 25          | Linguagem principal           |
-| Maven                     | 4.0.0       | Gerenciamento de dependências |
-| PostgreSQL                | 18.4        | Banco de dados                |
-| Jakarta Persistence (JPA) | 3.x         | API de persistência           |
-| Hibernate ORM             | 7.4.5 Final | Implementação da JPA          |
-| PostgreSQL JDBC Driver    | 42.7.13     | Driver de conexão             |
-| Git & GitHub              | —           | Controle de versão            |
-
-
+| Tecnologia                | Versão       | Finalidade                    |
+|---------------------------|--------------|-------------------------------|
+| Java                      | 25           | Linguagem principal           |
+| Maven                     | 4.0.0        | Gerenciamento de dependências |
+| PostgreSQL                | 18.4         | Banco de dados                |
+| Jakarta Persistence (JPA) | 3.x          | API de persistência           |
+| Hibernate ORM             | 6.6.18 Final | Implementação da JPA          |
+| PostgreSQL JDBC Driver    | 42.7.13      | Driver de conexão             |
+| Git & GitHub              | —            | Controle de versão            |
 
 ## Estrutura do Projeto
 
@@ -193,12 +191,31 @@ e utilize a seguinte configuração:
 
             <property name="jakarta.persistence.jdbc.password"
                       value="SUA_SENHA"/>
+            
+            <!-- Configuração do HikariCP -->
+            <property name="hibernate.connection.provider_class" 
+                      value="org.hibernate.hikaricp.internal.HikariCPConnectionProvider" />
+            
+            <property name="hibernate.hikari.maximumPoolSize" 
+                      value="10" />
+            
+            <property name="hibernate.hikari.minimumIdle" 
+                      value="5" />
+            
+            <property name="hibernate.hikari.connectionTimeout" 
+                      value="20000" />
+            
+            <property name="hibernate.hikari.idleTimeout" 
+                      value="600000" />
+            
+            <property name="hibernate.hikari.maxLifetime" 
+                      value="1800000" />
 
             <!-- Configuração do Hibernate -->
             <property name="hibernate.hbm2ddl.auto"
                       value="update"/>
 
-            <property name="hibernate.show_sql"
+            <property name="hibernate.show_sql" 
                       value="true"/>
 
             <property name="hibernate.format_sql"

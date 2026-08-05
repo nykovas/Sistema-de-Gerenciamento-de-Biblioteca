@@ -4,6 +4,7 @@ import br.com.nyk.sgb.model.Livro;
 import br.com.nyk.sgb.service.LivroService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class LivroMenu {
@@ -31,22 +32,22 @@ public class LivroMenu {
 
             switch (opcao){
                 case 1:
-                    System.out.println("Em manutenção.");
+                    cadastrarLivro();
                     break;
                 case 2:
-                    System.out.println("Em manutenção.");
+                    listarLivros();
                     break;
                 case 3:
-                    System.out.println("Em manutenção.");
+                    buscarLivroPorTitulo();
                     break;
                 case 4:
-                    System.out.println("Em manutenção.");
+                    buscarLivroPorGenero();
                     break;
                 case 5:
-                    System.out.println("Em manutenção.");
+                    atualizarLivro();
                     break;
                 case 6:
-                    System.out.println("Em manutenção.");
+                    removerLivro();
                     break;
                 case 0:
                     break;
@@ -79,11 +80,24 @@ public class LivroMenu {
         System.out.print("Digite a quantidade inicial: ");
         Integer quantidade = teclado.nextInt();
 
-        service.cadastrarLivro(new Livro(titulo, autor, genero, anoPublicacao, quantidade));
+        service.cadastrarLivro(new Livro(
+                null,
+                titulo,
+                autor,
+                genero,
+                anoPublicacao,
+                quantidade
+        ));
     }
 
     private static void listarLivros(){
         List<Livro> livros = service.listarLivros();
+
+        if (livros.isEmpty()){
+            System.out.println("A lista de livros está vazia.");
+            System.out.println("Retornando...");
+            return;
+        }
 
         for (Livro livro : livros) {
             System.out.printf("""
@@ -95,12 +109,12 @@ public class LivroMenu {
                     Ano de Publicação: %s
                     Estoque Disponível: %s
                     """,
-                    livro.id(),
-                    livro.titulo(),
-                    livro.autor(),
-                    livro.genero(),
-                    livro.anoPublicacao(),
-                    livro.quantidade());
+                    livro.getId(),
+                    livro.getTitulo(),
+                    livro.getAutor(),
+                    livro.getGenero(),
+                    livro.getAnoPublicacao(),
+                    livro.getEstoque());
         }
     }
 
@@ -110,6 +124,12 @@ public class LivroMenu {
 
         List<Livro> livros = service.buscarPorTitulo(titulo);
 
+        if (livros.isEmpty()){
+            System.out.println("Livro não encontrado...");
+            System.out.println("Retornando...");
+            return;
+        }
+
         for (Livro livro : livros) {
             System.out.printf("""
                     ---------------------------------------
@@ -120,12 +140,12 @@ public class LivroMenu {
                     Ano de Publicação: %s
                     Estoque Disponível: %s
                     """,
-                    livro.id(),
-                    livro.titulo(),
-                    livro.autor(),
-                    livro.genero(),
-                    livro.anoPublicacao(),
-                    livro.quantidade());
+                    livro.getId(),
+                    livro.getTitulo(),
+                    livro.getAutor(),
+                    livro.getGenero(),
+                    livro.getAnoPublicacao(),
+                    livro.getEstoque());
         }
     }
 
@@ -135,6 +155,12 @@ public class LivroMenu {
 
         List<Livro> livros = service.buscarPorGenero(genero);
 
+        if (livros.isEmpty()){
+            System.out.println("Nenhum livro com o gênero: " + genero + " encontrado.");
+            System.out.println("Retornando...");
+            return;
+        }
+
         for (Livro livro : livros) {
             System.out.printf("""
                     ---------------------------------------
@@ -145,14 +171,15 @@ public class LivroMenu {
                     Ano de Publicação: %s
                     Estoque Disponível: %s
                     """,
-                    livro.id(),
-                    livro.titulo(),
-                    livro.autor(),
-                    livro.genero(),
-                    livro.anoPublicacao(),
-                    livro.quantidade());
+                    livro.getId(),
+                    livro.getTitulo(),
+                    livro.getAutor(),
+                    livro.getGenero(),
+                    livro.getAnoPublicacao(),
+                    livro.getEstoque());
         }
     }
+
     private static void removerLivro(){
         System.out.print("Digite o id do livro que deseja apagar: ");
         Long id = teclado.nextLong();
@@ -179,6 +206,13 @@ public class LivroMenu {
         System.out.print("Digite o estoque inicial do livro: ");
         Integer estoque = teclado.nextInt();
 
-        service.atualizarLivro(new Livro(id, titulo, autor, genero, anoPublicacao, estoque));
+        service.atualizarLivro(new Livro(
+                id,
+                titulo,
+                autor,
+                genero,
+                anoPublicacao,
+                estoque
+        ));
     }
 }

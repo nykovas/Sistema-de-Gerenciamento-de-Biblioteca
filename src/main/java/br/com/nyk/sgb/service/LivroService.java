@@ -8,6 +8,7 @@ import br.com.nyk.sgb.model.Livro;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class LivroService {
     private final EntityFactory entity;
@@ -17,66 +18,54 @@ public class LivroService {
     }
 
     public void cadastrarLivro(Livro livro){
-        EntityManager em = entity.entityManager();
-        validarLivro(livro);
-        new LivroDAO(em).inserir(livro);
+        try(EntityManager em = entity.entityManager()){
+            new LivroDAO(em).inserir(livro);
+        }
     }
 
     public List<Livro> listarLivros(){
-        EntityManager em = entity.entityManager();
-        return new LivroDAO(em).listar();
+        try(EntityManager em = entity.entityManager()){
+            return new LivroDAO(em).listar();
+        }
     }
 
     public List<Livro> buscarPorTitulo(String livro){
-        EntityManager em = entity.entityManager();
-        List<Livro> livros = new LivroDAO(em).buscaPorTitulo(livro);
-        if (livros.isEmpty()){
-            System.out.println("Nenhum livro encontrado.");
+        try(EntityManager em = entity.entityManager()){
+            return new LivroDAO(em).buscaPorTitulo(livro);
         }
-        return livros;
     }
 
     public List<Livro> buscarPorGenero(String genero){
-        EntityManager em = entity.entityManager();
-        List<Livro> livros = new LivroDAO(em).buscaPorGenero(genero);
-        if (livros.isEmpty()){
-            System.out.println("Nenhum livro com o gênero: " + genero + " encontrado.");
+        try(EntityManager em = entity.entityManager()){
+            return new LivroDAO(em).buscaPorGenero(genero);
         }
-        return livros;
     }
 
     public void removerLivro(Long id){
-        EntityManager em = entity.entityManager();
-        verificarExistencia(id);
-        new LivroDAO(em).removerLivro(id);
+        try(EntityManager em = entity.entityManager()){
+            new LivroDAO(em).removerLivro(id);
+        }
     }
 
     public void atualizarLivro(Livro livro){
-        EntityManager em = entity.entityManager();
-        verificarExistencia(livro.id());
-        validarLivro(livro);
-        new LivroDAO(em).atualizarLivro(livro);
+        try (EntityManager em = entity.entityManager()){
+            new LivroDAO(em).atualizarLivro(livro);
+        }
     }
 
     private void validarLivro(Livro livro){
-        if (livro.titulo() == null || livro.titulo().isBlank()){
+        if (livro.getTitulo() == null || livro.getTitulo().isBlank()){
             throw new ValidacaoException("O título não pode estar vazio.");
         }
-        if (livro.autor() == null || livro.autor().isBlank()){
+        if (livro.getAutor() == null || livro.getAutor().isBlank()){
             throw new ValidacaoException("O autor não pode estar vazio.");
         }
-        if (livro.genero() == null || livro.genero().isBlank()){
+        if (livro.getGenero() == null || livro.getGenero().isBlank()){
             throw new ValidacaoException("O gênero não pode estar vazio.");
         }
-        if (livro.anoPublicacao() == null){
+        if (livro.getAnoPublicacao() == null){
             throw new ValidacaoException("O ano não pode estar vazio.");
         }
     }
-    private void verificarExistencia(Long id){
-        EntityManager em = entity.entityManager();
-        LivroDAO livroDAO = new LivroDAO(em);
-        if (!Objects.equals(id, livroDAO.verificarExistencia(id))){
-            throw new ValidacaoException("Nenhum livro com o id: " + id + "encontrado.");
-        }
-    }
+
 }
