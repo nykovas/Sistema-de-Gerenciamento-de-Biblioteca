@@ -1,6 +1,6 @@
 # 📚 Sistema de Gerenciamento de Biblioteca
 
-> Aplicação de console desenvolvida em Java para simular a rotina de uma biblioteca, utilizando **JPA (Jakarta Persistence)** com **Hibernate** para persistência em PostgreSQL. O projeto surgiu como uma evolução de uma versão originalmente desenvolvida com **JDBC puro**, servindo como estudo da migração entre diferentes abordagens de acesso a dados e da adoção de um ORM.
+> Aplicação de console desenvolvida em Java para simular a rotina de uma biblioteca, utilizando **JPA (Jakarta Persistence)** com **Hibernate** para persistência em PostgreSQL. O projeto é uma evolução de uma versão originalmente desenvolvida com **JDBC puro**, servindo como estudo da migração para um ORM e da aplicação de boas práticas de arquitetura em camadas.
 
 ![Java](https://img.shields.io/badge/Java-25-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
 ![JPA](https://img.shields.io/badge/JPA-3.x-6DB33F?style=for-the-badge)
@@ -9,27 +9,27 @@
 ![Maven](https://img.shields.io/badge/Maven-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white)
 ![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow?style=for-the-badge)
 
-## 📑 Índice
+## Índice
 
-- [Sobre o Projeto](#-sobre-o-projeto)
-- [Demonstração](#️-demonstração)
-- [Funcionalidades](#-funcionalidades)
-- [Aprendizados e Conceitos Praticados](#-aprendizados-e-conceitos-praticados)
-- [Tecnologias Utilizadas](#-tecnologias-utilizadas)
-- [Estrutura do Projeto](#-estrutura-do-projeto)
-- [Como Executar o Projeto](#-como-executar-o-projeto)
-- [Próximos Passos / Melhorias Futuras](#-próximos-passos--melhorias-futuras)
-- [Autor](#-autor)
+- [Sobre o Projeto](#sobre-o-projeto)
+- [Demonstração](#demonstração)
+- [Funcionalidades](#funcionalidades)
+- [Aprendizados e Conceitos Praticados](#aprendizados-e-conceitos-praticados)
+- [Tecnologias Utilizadas](#tecnologias-utilizadas)
+- [Estrutura do Projeto](#estrutura-do-projeto)
+- [Como Executar o Projeto](#como-executar-o-projeto)
+- [Próximos Passos / Melhorias Futuras](#próximos-passos--melhorias-futuras)
+- [Autor](#autor)
 
-## 📖 Sobre o Projeto
+## Sobre o Projeto
 
 O **Sistema de Gerenciamento de Biblioteca (SGB)** é uma aplicação de console desenvolvida em Java, criada como projeto prático de estudos para consolidar conhecimentos em **JPA (Jakarta Persistence), Hibernate, PostgreSQL, Programação Orientada a Objetos e arquitetura em camadas** (DAO, Service, Model e View).
 
 O sistema simula as operações do dia a dia de uma biblioteca: cadastro e gerenciamento de clientes e livros, controle de empréstimos e geração de relatórios, como o ranking dos livros mais emprestados e a quantidade de empréstimos por cliente.
 
-A persistência é realizada por meio do **Hibernate** como implementação da especificação **JPA**, permitindo o mapeamento objeto-relacional (ORM) entre as entidades Java e o banco de dados PostgreSQL.
+A persistência é realizada por meio da **API Jakarta Persistence (JPA)**, utilizando o **Hibernate** como implementação ORM responsável pelo mapeamento entre as entidades Java e o banco de dados PostgreSQL.
 
-## 🖥️ Demonstração
+## Demonstração
 
 <table>
   <tr>
@@ -48,16 +48,16 @@ O projeto já inclui um diagrama entidade-relacionamento do banco de dados:
 
 ![Diagrama do banco de dados](src/assets/diagram_db.svg)
 
-## ⚙️ Funcionalidades
+## Funcionalidades
 
-### 👤 Clientes
+### Clientes
 - Cadastrar cliente
 - Listar clientes ativos
 - Buscar cliente por nome
 - Atualizar dados de um cliente
 - Desativar cliente
 
-### 📖 Livros
+### Livros
 - Cadastrar livro
 - Listar livros disponíveis em estoque
 - Buscar livro por título
@@ -65,13 +65,13 @@ O projeto já inclui um diagrama entidade-relacionamento do banco de dados:
 - Atualizar dados de um livro
 - Remover livro
 
-### 🔄 Empréstimos
+### Empréstimos
 - Registrar um novo empréstimo
 - Listar todos os empréstimos (com nome do cliente e do livro)
 - Visualizar o **Top 5** livros mais emprestados
 - Visualizar a **quantidade de empréstimos por cliente**
 
-## 🎓 Aprendizados e Conceitos Praticados
+## Aprendizados e Conceitos Praticados
 
 Este projeto foi utilizado como campo de prática para os seguintes conceitos:
 
@@ -79,6 +79,7 @@ Este projeto foi utilizado como campo de prática para os seguintes conceitos:
 - **JPA (Jakarta Persistence)** para abstração da camada de persistência
 - **Hibernate ORM** como implementação da JPA
 - **Mapeamento objeto-relacional (ORM)** utilizando anotações (`@Entity`, `@Table`, `@Id`, `@GeneratedValue`, `@OneToMany`, `@ManyToOne`, etc.)
+- **Relacionamentos entre entidades** utilizando `@OneToMany`, `@ManyToOne` e `@JoinColumn`
 - **JPQL (Java Persistence Query Language)** para consultas orientadas a objetos
 - **EntityManager** para gerenciamento do ciclo de vida das entidades
 - **Controle de transações** utilizando `EntityTransaction`
@@ -88,27 +89,22 @@ Este projeto foi utilizado como campo de prática para os seguintes conceitos:
 - **Exceções customizadas** (`ValidacaoException`) para validações da camada de serviço
 - **Collections** (`List`, `ArrayList`)
 - **Organização do projeto seguindo boas práticas de arquitetura**
-- 
-## 🛠️ Tecnologias Utilizadas
+  
+## Tecnologias Utilizadas
 
-| Tecnologia                | Versão | Finalidade                    |
-|---------------------------|--------|-------------------------------|
-| Java                      | 25     | Linguagem principal           |
-| Maven                     | —      | Gerenciamento de dependências |
-| PostgreSQL                | —      | Banco de dados                |
-| Jakarta Persistence (JPA) | 3.x    | API de persistência           |
-| Hibernate ORM             | 7.x    | Implementação da JPA          |
-| PostgreSQL JDBC Driver    | 42.x   | Driver de conexão             |
-| Git & GitHub              | —      | Controle de versão            |
+| Tecnologia                | Versão      | Finalidade                    |
+|---------------------------|-------------|-------------------------------|
+| Java                      | 25          | Linguagem principal           |
+| Maven                     | 4.0.0       | Gerenciamento de dependências |
+| PostgreSQL                | 18.4        | Banco de dados                |
+| Jakarta Persistence (JPA) | 3.x         | API de persistência           |
+| Hibernate ORM             | 7.4.5 Final | Implementação da JPA          |
+| PostgreSQL JDBC Driver    | 42.7.13     | Driver de conexão             |
+| Git & GitHub              | —           | Controle de versão            |
 
 
 
-## 📂 Estrutura do Projeto
-
-```
-## 📁 Estrutura do Projeto
-
-## 📂 Estrutura do Projeto
+## Estrutura do Projeto
 
 ```text
 src/
@@ -132,7 +128,7 @@ src/
             └── persistence.xml
 ```
 
-## 🚀 Como Executar o Projeto
+## Como Executar o Projeto
 
 ### Pré-requisitos
 
@@ -146,7 +142,7 @@ Antes de executar a aplicação, certifique-se de possuir:
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/nykovas/sistema-gerenciamento-biblioteca.git
+
 cd sistema-gerenciamento-biblioteca
 ```
 
@@ -215,7 +211,7 @@ e utilize a seguinte configuração:
 </persistence>
 ```
 
-> **Observação:** substitua `SEU_USUARIO` e `SUA_SENHA` pelas credenciais do seu PostgreSQL.
+> **Observação:** altere apenas as propriedades `jakarta.persistence.jdbc.url`, `jakarta.persistence.jdbc.user` e `jakarta.persistence.jdbc.password` conforme o seu ambiente.
 
 ### 4. Compile o projeto
 
@@ -235,11 +231,11 @@ pela sua IDE (IntelliJ IDEA, Eclipse ou VS Code).
 
 ---
 
-## 🔮 Próximos Passos / Melhorias Futuras
+## Próximos Passos / Melhorias Futuras
 
 - [ ] Implementar testes automatizados (JUnit + Mockito)
 - [ ] Evoluir a aplicação para uma API REST com **Spring Boot**
-- [ ] Migrar a camada de persistência para **Spring Data JPA**
+- [ ] Evoluir a camada de persistência para Spring Data JPA em uma API Spring Boot
 - [ ] Adicionar autenticação e autorização com **Spring Security**
 - [ ] Implementar paginação nas consultas
 - [ ] Substituir os `System.out.println` por um framework de logging (SLF4J + Logback)
@@ -247,9 +243,9 @@ pela sua IDE (IntelliJ IDEA, Eclipse ou VS Code).
 - [ ] Containerizar a aplicação e o banco de dados com Docker / Docker Compose
 - [ ] Adicionar uma licença de código aberto (MIT)
 
-## 👨‍💻 Autor
+## Autor
 
-Desenvolvido por **Bruno Celestino** durante meus estudos de desenvolvimento backend em Java.
+Desenvolvido por **Bruno Celestino** como projeto de estudos para aprofundar conhecimentos em Java, JPA/Hibernate, PostgreSQL e desenvolvimento backend.
 
 [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/nykovas)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/bruno-celestino-a5b1423a4)
